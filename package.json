@@ -2,10 +2,13 @@
   "name": "short_cuts",
   "private": true,
   "scripts": {
+    "compile": "tsc",
     "dev": "next dev",
+    "coverage": "jest test --coverage --coverageDirectory=coverage --watchAll=false",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "jest --watch"
   },
   "dependencies": {
     "next": "12.0.4",
@@ -13,10 +16,62 @@
     "react-dom": "17.0.2"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.15.1",
+    "@testing-library/react": "^12.1.2",
+    "@types/jest": "^27.0.3",
+    "@types/js-cookie": "^3.0.1",
     "@types/node": "16.11.10",
     "@types/react": "17.0.37",
+    "babel-jest": "^27.3.1",
     "eslint": "7.32.0",
-    "eslint-config-next": "12.0.4",
+    "eslint-config-next": "^12.0.4",
+    "eslint-plugin-jest": "^25.3.0",
+    "eslint-plugin-jest-formatting": "^3.1.0",
+    "eslint-plugin-react": "^7.27.1",
+    "eslint-plugin-unused-imports": "^2.0.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^27.3.1",
+    "prettier": "^2.5.0",
     "typescript": "4.5.2"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "<rootDir>/src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/src/**/fixtures/*.{js,jsx,ts,tsx}"
+    ],
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/src/pages/_app.tsx",
+      "<rootDir>/src/pages/_document.tsx"
+    ],
+    "coverageReporters": [
+      "text",
+      "html"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      }
+    },
+    "globalSetup": "<rootDir>/jest/globalSetup.js",
+    "setupFilesAfterEnv": [
+      "<rootDir>/jest/setup/fetch.js",
+      "<rootDir>/jest/setup/i18next.js",
+      "<rootDir>/jest/setup/testing-library.js"
+    ],
+    "moduleNameMapper": {
+      ".+\\.(css|styl|less|sass|scss)$": "identity-obj-proxy",
+      ".+\\.(png|jpg|ttf|woff|woff2)$": "<rootDir>/jest/modules/images.js"
+    },
+    "roots": [
+      "./src"
+    ],
+    "testEnvironment": "jsdom",
+    "verbose": true
   }
 }

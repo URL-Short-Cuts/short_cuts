@@ -30,8 +30,11 @@ yarn-error.log*
 .env.test.local
 .env.production.local
 
+# cypress env files
+cypress.env.json
+
 # vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
+# Local Netlify folder
+.netlify
