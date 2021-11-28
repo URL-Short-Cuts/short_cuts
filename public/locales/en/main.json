@@ -1,1 +1,32 @@
-{}
+{
+  "analytics": {
+    "acceptMessage": "Yes, that's fine.",
+    "declineMessage": "No thank you.",
+    "message1": "This website uses third party cookies to collect usage data so that we can improve the service.  These cookies are stored in your browser as an identity tag, and are sent to the server with each request.",
+    "message2": "Are you comfortable allowing us to do this?"
+  },
+  "errors": {
+    "404": {
+      "title": "Page not found!",
+      "message": "Something unexpected has happened...",
+      "resetButton": "Try something else!"
+    },
+    "generic": {
+      "title": "An error has occurred!",
+      "resetButton": "Try Again!"
+    }
+  },
+  "pages": {
+    "about": {
+      "title": "Place Holder About",
+      "description": "About Description."
+    },
+    "home": {
+      "title": "Place Holder Index",
+      "description": "Index Description."
+    }
+  },
+  "popups": {
+    "FeedBack": "How can we make this app better?  Click and let us know!"
+  }
+}

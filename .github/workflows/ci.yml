@@ -3,9 +3,7 @@ name: URL Short Cuts CI/CD
 
 # CI_ENVIRONMENT_CONTENT            - Environment file content for the ci environment
 # STAGE_ENVIRONMENT_CONTENT         - Environment file content for the ci environment
-# STAGE_NETLIFY_SITE_ID            - Netlify Stage Site ID
-# PRODUCTION_ENVIRONMENT_CONTENT    - Environment file content for the ci environment
-# PRODUCTION_NETLIFY_SITE_ID        - Netlify Production Site ID
+# STAGE_NETLIFY_SITE_ID             - Netlify Stage Site ID
 
 on:
   push:
@@ -15,7 +13,6 @@ on:
 
 env:
   STAGE_NETLIFY_NAME: "stage-short-cuts"
-  PRODUCTION_NETLIFY_NAME: "production-short-cuts"
   PROJECT_NAME: "mla"
   NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
 
@@ -44,7 +41,7 @@ jobs:
 
       - name: Build -- Unit Tests and Coverage
         run: |
-          npm run coverage
+          npm run test:coverage
 
       - name: Build -- Report Job Status
         if: ${{ failure() }}
@@ -244,7 +241,7 @@ jobs:
 
       - name: Type Validation -- Compile Typescript
         run: |
-          npm run compile
+          npm run test:types
 
       - name: Type Validation -- Report Job Status on Failure
         if: failure()
