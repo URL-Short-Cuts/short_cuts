@@ -1,0 +1,16 @@
+{
+  "files.exclude": {
+    "node_modules": true
+  },
+  "cSpell.words": [
+    "Chakra",
+    "formik",
+    "Gitleaks",
+    "middlewares",
+    "pageview",
+    "Shellcheck",
+    "styl",
+    "testid",
+    "zricethezav"
+  ]
+}
