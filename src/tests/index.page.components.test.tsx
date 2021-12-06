@@ -1,9 +1,12 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
+import formTranslations from "../../public/locales/en/forms.json";
 import ErrorBoundary from "../components/errors/boundary/error.boundary.component";
+import FormUI from "../components/forms/url/url.ui.component";
 import routes from "../config/routes";
 import Events from "../events/events";
 import Page from "../pages/index";
 import mockCheckCall from "../tests/fixtures/mock.component.call";
+import mockTranslationLookups from "../tests/fixtures/mock.translation";
 import getPageProps from "../utils/page.props.static";
 
 jest.mock("../utils/page.props.static", () => jest.fn());
@@ -11,6 +14,22 @@ jest.mock("../utils/page.props.static", () => jest.fn());
 jest.mock("../components/errors/boundary/error.boundary.component", () =>
   createMockedComponent("ErrorBoundary")
 );
+
+jest.mock("../components/forms/url/url.ui.component", () =>
+  jest.fn(() => <div>MockForm</div>)
+);
+
+jest.mock("next-i18next", () => {
+  return {
+    useTranslation: () => {
+      return {
+        t: mockT,
+      };
+    },
+  };
+});
+
+const mockT = jest.fn();
 
 const createMockedComponent = (name: string) => {
   const {
@@ -24,7 +43,7 @@ describe("getStaticProps", () => {
     expect(getPageProps).toBeCalledTimes(1);
     expect(getPageProps).toBeCalledWith({
       pageKey: "home",
-      translations: [],
+      translations: ["forms"],
     });
   });
 });
@@ -34,7 +53,12 @@ describe("Index", () => {
     render(<Page />);
   };
 
-  beforeEach(() => jest.clearAllMocks());
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockT.mockImplementation((translationKey: string) =>
+      mockTranslationLookups(translationKey, formTranslations)
+    );
+  });
 
   describe("when rendered", () => {
     beforeEach(() => arrange());
@@ -52,8 +76,17 @@ describe("Index", () => {
       );
     });
 
-    it("should call the Splash component", async () => {
-      await screen.findAllByText("Mock Index Page");
+    it("should call the FormUI component correctly", () => {
+      expect(FormUI).toBeCalledTimes(1);
+      mockCheckCall(
+        FormUI,
+        {
+          route: routes.about,
+          title: formTranslations.url.title,
+        },
+        0,
+        ["stateReset", "t"]
+      );
     });
   });
 });

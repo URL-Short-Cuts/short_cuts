@@ -1,0 +1,16 @@
+{
+  "url": {
+    "title": "Url Shortener",
+    "fields": {
+      "url": {
+        "fieldLabel": "URL:",
+        "fieldPlaceHolder": "https://myurl.com",
+        "errors": {
+          "required": "A valid url is required.",
+          "invalid": "This isn't a valid url."
+        }
+      }
+    },
+    "buttonText": "Go!"
+  }
+}
