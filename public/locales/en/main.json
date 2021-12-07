@@ -21,6 +21,10 @@
       "title": "Place Holder About",
       "description": "About Description."
     },
+    "create": {
+      "title": "Place Holder Create",
+      "description": "Create Description."
+    },
     "home": {
       "title": "Place Holder Index",
       "description": "Index Description."
