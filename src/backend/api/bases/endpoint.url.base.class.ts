@@ -2,6 +2,7 @@ import { body, validationResult } from "express-validator";
 import nextConnect from "next-connect";
 import { knownStatuses } from "../../../config/api";
 import * as status from "../../../config/status";
+import { isValidUrl } from "../../../validators/urls";
 import { IntegrationError } from "../../integrations/integration.error.class";
 import Logger from "../endpoint.logger";
 import type { APIRequest } from "../../../types/api/request.d";
@@ -23,16 +24,9 @@ export default abstract class LastFMApiEndpointFactory {
       body("url").isLength({ min: 6 }),
       async (req, res, next) => {
         const errors = validationResult(req);
-        if (!errors.isEmpty()) {
+        if (!errors.isEmpty() || !isValidUrl(req.body.url)) {
           throw new IntegrationError("Invalid url specified.", 400);
         } else {
-          try {
-            const url = new URL(req.body.url);
-            if (!url.hostname.split(".")[1])
-              throw new Error("Invalid url, hostname without suffix.");
-          } catch (_) {
-            throw new IntegrationError("Invalid url specified.", 400);
-          }
           const integrationResponse = await this.externalIntegration(
             req.body.url
           );
