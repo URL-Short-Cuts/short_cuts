@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import FormComponent from "./url.form.component";
 import useNavBar from "../../../hooks/navbar";
+import { isValidUrl } from "../../../validators/urls";
 import type { URLFormInterface } from "../../../types/forms/url.d";
 import type { TFunction } from "next-i18next";
 
@@ -36,11 +37,7 @@ export default function FormContainer({
       openError("url", t("url.fields.url.errors.required"));
       return t("url.fields.url.errors.required");
     }
-    try {
-      const url = new URL(value);
-      if (!url.hostname.split(".")[1])
-        throw new Error("hostname without suffix.");
-    } catch (err) {
+    if (!isValidUrl(value)) {
       openError("url", t("url.fields.url.errors.invalid"));
       return t("url.fields.url.errors.invalid");
     }
