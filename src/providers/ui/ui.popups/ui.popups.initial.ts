@@ -4,6 +4,7 @@ import type { UserInterfacePopUpsStateInterface } from "../../../types/ui/popups
 
 export const InitialState = <UserInterfacePopUpsStateInterface>{
   FeedBack: { status: false },
+  ClipBoard: { status: false },
 };
 
 const InitialContext = <UserInterfacePopUpsContextInterface>{

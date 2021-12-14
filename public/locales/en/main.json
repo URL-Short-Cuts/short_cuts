@@ -31,6 +31,7 @@
     }
   },
   "popups": {
+    "ClipBoard": "Your new Short Cut has been copied to the clipboard!",
     "FeedBack": "How can we make this app better?  Click and let us know!"
   }
 }

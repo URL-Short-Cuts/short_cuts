@@ -31,6 +31,7 @@ describe("UserInterfacePopUpsProvider", () => {
       const properties = received as UserInterfacePopUpsContextInterface;
       expect(properties.status).toStrictEqual({
         FeedBack: { status: false },
+        ClipBoard: { status: false },
       });
       expect(typeof properties.dispatch).toBe("function");
     });

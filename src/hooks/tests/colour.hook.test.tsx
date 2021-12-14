@@ -30,7 +30,7 @@ describe("useColour", () => {
 
   const checkProperties = () => {
     it("should contain the correct number of top level properties", () => {
-      assertLenIs(received.result.current, 11);
+      assertLenIs(received.result.current, 12);
     });
 
     it("should contain the bodyColour background color", () => {
@@ -97,6 +97,13 @@ describe("useColour", () => {
       assertIsString(
         received.result.current.navButtonColour.selectedBackground
       );
+      assertLenIs(received.result.current.navButtonColour, 3);
+    });
+
+    it("should contain the notificationColour properties", () => {
+      assertIsString(received.result.current.notificationColour.background);
+      assertIsString(received.result.current.notificationColour.border);
+      assertIsString(received.result.current.notificationColour.foreground);
       assertLenIs(received.result.current.navButtonColour, 3);
     });
 
