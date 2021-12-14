@@ -2,8 +2,8 @@
 name: URL Short Cuts CI/CD
 
 # CI_ENVIRONMENT_CONTENT            - Environment file content for the ci environment
-# STAGE_ENVIRONMENT_CONTENT         - Environment file content for the ci environment
-# STAGE_NETLIFY_SITE_ID             - Netlify Stage Site ID
+# STAGE_AMPLIFY_WEBHOOK             - Deployment Hook for Amplify
+# STAGE_ENDPOINT_NAME               - Endpoint for the Stage environment
 
 on:
   push:
@@ -12,9 +12,8 @@ on:
   workflow_dispatch:
 
 env:
-  STAGE_NETLIFY_NAME: "stage-short-cuts"
   PROJECT_NAME: "short_cuts"
-  NETLIFY_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
+  STAGE_ENDPOINT_NAME: ""
 
 jobs:
   build:
@@ -65,31 +64,24 @@ jobs:
         env:
           WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
-      - name: Build -- Append Stage Environment Content
-        run: |
-          echo "${STAGE_ENVIRONMENT_CONTENT}" > .env.local
-        env:
-          STAGE_ENVIRONMENT_CONTENT: ${{ secrets.STAGE_ENVIRONMENT_CONTENT }}
-
-      - name: Deploy Stage -- Trigger Netlify API
+      - name: Deploy Stage -- Trigger Amplify
         if: github.ref == 'refs/heads/master'
         run: |
-          sudo npm install netlify-cli -g
-          npm ci
-          netlify deploy --build --prod -s ${NETLIFY_SITE_ID}
+          curl -X POST -d {} "${STAGE_AMPLIFY_WEBHOOK}" -H "Content-Type:application/json"
         env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.STAGE_NETLIFY_SITE_ID }}
+          STAGE_AMPLIFY_WEBHOOK: ${{ secrets.STAGE_AMPLIFY_WEBHOOK }}
 
       - name: Deploy Stage -- Report Job Status on Success
         if: github.ref == 'refs/heads/master'
         run: |
-          ./.github/scripts/notifications.sh "${NOTIFICATION}" ":white_check_mark: deployed https://${STAGE_NETLIFY_NAME}.netlify.app"
+          ./.github/scripts/notifications.sh "${NOTIFICATION}" ":white_check_mark: triggered amplify deploy to ${STAGE_ENDPOINT_NAME}"
+        env:
+          STAGE_ENDPOINT_NAME: ${{ secrets.STAGE_ENDPOINT_NAME }}
 
       - name: Deploy Stage -- Report Job Status on Failure
         if: failure()
         run: |
-          ./.github/scripts/notifications.sh "${NOTIFICATION}" ":x: error deploying branch!"
+          ./.github/scripts/notifications.sh "${NOTIFICATION}" ":x: error triggering deploy!"
 
   lint:
     runs-on: ubuntu-latest
