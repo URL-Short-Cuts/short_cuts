@@ -1,7 +1,8 @@
 const routes = {
   home: "/",
   about: "/about",
-  404: "/not/a/valid/page",
+  create: "/create",
+  404: "/_notFound",
 };
 
 export default routes;

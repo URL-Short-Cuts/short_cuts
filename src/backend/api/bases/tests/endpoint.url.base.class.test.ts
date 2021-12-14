@@ -1,27 +1,39 @@
 import { createMocks } from "node-mocks-http";
 import * as status from "../../../../config/status";
-import { IntegrationError } from "../../../integrations/integration.error.class";
-import BaseClass from "../endpoint.url.base.class";
+import IntegrationError from "../../../integrations/integration.error.class";
+import UrlEndpointFactoryBase from "../endpoint.url.base.class";
 import type { HttpMethodType } from "../../../../types/general/http";
 import type { NextApiRequest, NextApiResponse } from "next";
 import type { MockRequest, MockResponse } from "node-mocks-http";
 
-class ConcreteClass extends BaseClass {
+class ConcreteClass extends UrlEndpointFactoryBase {
   route = "/api/v1/endpoint";
+  methods = ["POST" as const, "GET" as const];
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  externalIntegration(_: string): Record<string, string> {
+  async postIntegration(_: string): Promise<Record<string, string>> {
     return status.STATUS_200_MESSAGE;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async getIntegration(_: string): Promise<Record<string, string>> {
+    return { url: "http://yahoo.com" };
   }
 }
 
-class ConcreteErrorClass extends BaseClass {
+class ConcreteErrorClass extends UrlEndpointFactoryBase {
   route = "/api/v1/endpoint";
+  methods = ["POST" as const, "GET" as const];
   mockError = "mockError";
   errorCode?: number;
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  externalIntegration(_: string): Record<string, string> {
+  async postIntegration(_: string): Promise<Record<string, string>> {
+    throw new IntegrationError(this.mockError, this.errorCode);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async getIntegration(_: string): Promise<Record<string, string>> {
     throw new IntegrationError(this.mockError, this.errorCode);
   }
 }
@@ -30,7 +42,7 @@ jest.mock("../../endpoint.logger.ts", () => {
   return jest.fn((req, res, next) => next());
 });
 
-describe("EndpointBaseClass", () => {
+describe("UrlEndpointFactoryBase", () => {
   let req: MockRequest<NextApiRequest>;
   let res: MockResponse<NextApiResponse>;
   let payload: undefined | Record<string, string>;
@@ -69,31 +81,6 @@ describe("EndpointBaseClass", () => {
         it("should return a 200", () => {
           expect(res._getStatusCode()).toBe(200);
           expect(res._getJSONData()).toStrictEqual(status.STATUS_200_MESSAGE);
-        });
-      });
-
-      describe("receives a request that generates an unknown proxy error", () => {
-        beforeEach(async () => {
-          factory = new ConcreteErrorClass();
-          await arrange();
-        });
-
-        it("should return a 502", () => {
-          expect(res._getStatusCode()).toBe(502);
-          expect(res._getJSONData()).toStrictEqual(status.STATUS_502_MESSAGE);
-        });
-      });
-
-      describe("receives a request that generates an rate limited proxy error", () => {
-        beforeEach(async () => {
-          factory = new ConcreteErrorClass();
-          (factory as ConcreteErrorClass).errorCode = 429;
-          await arrange();
-        });
-
-        it("should return a 429", () => {
-          expect(res._getStatusCode()).toBe(429);
-          expect(res._getJSONData()).toStrictEqual(status.STATUS_429_MESSAGE);
         });
       });
     });
@@ -135,26 +122,34 @@ describe("EndpointBaseClass", () => {
     });
   });
 
-  describe("with a PUT request", () => {
+  describe("with a GET request", () => {
     beforeEach(() => {
-      method = "PUT" as const;
+      method = "GET" as const;
+      payload = undefined;
     });
 
-    describe("with a random payload", () => {
+    describe("receives a request that is processed correctly", () => {
       beforeEach(async () => {
-        payload = { random: "random" };
+        factory = new ConcreteClass();
+        await arrange();
       });
 
-      describe("receives a request", () => {
-        beforeEach(async () => {
-          factory = new ConcreteClass();
-          await arrange();
-        });
+      it("should return a 301", () => {
+        expect(res._getStatusCode()).toBe(301);
+        expect(res._getRedirectUrl()).toStrictEqual("http://yahoo.com");
+      });
+    });
 
-        it("should return a 405", () => {
-          expect(res._getStatusCode()).toBe(405);
-          expect(res._getJSONData()).toStrictEqual(status.STATUS_405_MESSAGE);
-        });
+    describe("receives a request that errors", () => {
+      beforeEach(async () => {
+        factory = new ConcreteErrorClass();
+        (factory as ConcreteErrorClass).errorCode = 404;
+        await arrange();
+      });
+
+      it("should return a 302", () => {
+        expect(res._getStatusCode()).toBe(302);
+        expect(res._getRedirectUrl()).toStrictEqual("/_notFound");
       });
     });
   });

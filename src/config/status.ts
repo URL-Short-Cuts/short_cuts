@@ -6,6 +6,9 @@ export const STATUS_200_MESSAGE: StatusMessageType = {
 export const STATUS_400_MESSAGE: StatusMessageType = {
   detail: "Invalid Request.",
 };
+export const STATUS_404_MESSAGE: StatusMessageType = {
+  detail: "Not found.",
+};
 export const STATUS_429_MESSAGE: StatusMessageType = {
   detail: "Rate Limit exceeded.",
 };

@@ -1,4 +1,4 @@
-export class IntegrationError extends Error {
+export default class IntegrationError extends Error {
   statusCode: number | undefined;
 
   constructor(message: string, statusCode?: number) {

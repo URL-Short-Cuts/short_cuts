@@ -11,7 +11,7 @@ const logger = (req: APIRequest, res: NextApiResponse, next: () => void) => {
   message += `${req.headers["content-length"]} `;
   message += `${req.headers["referer"]} `;
   message += `${req.headers["user-agent"]}`;
-  if (req.error) message += ` (Errors: ${req.error})`;
+  if (req.error) message += ` (${req.error})`;
 
   console.log(message);
 
