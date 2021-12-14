@@ -1,24 +1,19 @@
 import { body, validationResult } from "express-validator";
-import nextConnect from "next-connect";
-import { knownStatuses } from "../../../config/api";
-import * as status from "../../../config/status";
+import EndpointFactoryBase from "./endpoint.base.class";
+import routes from "../../../config/routes";
 import { isValidUrl } from "../../../validators/urls";
-import { IntegrationError } from "../../integrations/integration.error.class";
-import Logger from "../endpoint.logger";
+import IntegrationError from "../../integrations/integration.error.class";
 import type { APIRequest } from "../../../types/api/request.d";
-import type { NextApiRequest, NextApiResponse } from "next";
+import type { HttpMethodType } from "../../../types/general/http";
+import type { NextApiResponse } from "next";
+import type { NextConnect } from "next-connect";
 
-export default abstract class LastFMApiEndpointFactory {
+export default abstract class UrlEndpointFactoryBase extends EndpointFactoryBase {
   route!: string;
+  methods!: HttpMethodType[];
 
-  abstract externalIntegration(url: string): Record<string, string>;
-
-  create() {
-    const handler = nextConnect<APIRequest, NextApiResponse>({
-      onError: this.onError,
-      onNoMatch: this.onNoMatch,
-    });
-    handler.post(
+  attachPostHandler(baseHandler: NextConnect<APIRequest, NextApiResponse>) {
+    baseHandler.post(
       this.route,
       body("url").isString(),
       body("url").isLength({ min: 6 }),
@@ -27,34 +22,25 @@ export default abstract class LastFMApiEndpointFactory {
         if (!errors.isEmpty() || !isValidUrl(req.body.url)) {
           throw new IntegrationError("Invalid url specified.", 400);
         } else {
-          const integrationResponse = await this.externalIntegration(
-            req.body.url
-          );
+          const integrationResponse = await this.postIntegration(req.body.url);
           res.status(200).json(integrationResponse);
         }
         next();
       }
     );
-    handler.use(Logger);
-    return handler;
   }
 
-  onNoMatch(req: NextApiRequest, res: NextApiResponse) {
-    res.status(405).json(status.STATUS_405_MESSAGE);
-  }
-
-  onError(
-    err: IntegrationError,
-    req: APIRequest,
-    res: NextApiResponse,
-    next: () => void
-  ) {
-    req.error = err.toString();
-    if (err.statusCode && knownStatuses[err.statusCode]) {
-      res.status(err.statusCode).json(knownStatuses[err.statusCode]);
-    } else {
-      res.status(502).json(status.STATUS_502_MESSAGE);
-    }
-    next();
+  attachGetHandler(baseHandler: NextConnect<APIRequest, NextApiResponse>) {
+    baseHandler.get(this.route, async (req, res, next) => {
+      try {
+        const integrationResponse = await this.getIntegration(
+          String(req.query.id)
+        );
+        res.redirect(301, integrationResponse.url);
+      } catch (err) {
+        res.redirect(302, routes[404]);
+      }
+      next();
+    });
   }
 }

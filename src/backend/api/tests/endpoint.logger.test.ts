@@ -51,7 +51,7 @@ describe("endpointLogger", () => {
   const returnMessageWithError = (
     address: string | undefined,
     errors: string
-  ) => `${returnMessage(address)} (Errors: ${errors})`;
+  ) => `${returnMessage(address)} (${errors})`;
 
   describe("with a string based list of ips as the x-forwarded-header", () => {
     beforeEach(() => {
