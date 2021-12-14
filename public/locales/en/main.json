@@ -23,16 +23,20 @@
     }
   },
   "pages": {
+    "default": {
+      "title": "ShortCuts",
+      "description": ""
+    },
     "about": {
-      "title": "Place Holder About",
+      "title": "ShortCuts About",
       "description": "About Description."
     },
     "create": {
-      "title": "Place Holder Create",
+      "title": "ShortCuts Create",
       "description": "Create Description."
     },
     "home": {
-      "title": "Place Holder Index",
+      "title": "ShortCuts Index",
       "description": "Index Description."
     }
   },
