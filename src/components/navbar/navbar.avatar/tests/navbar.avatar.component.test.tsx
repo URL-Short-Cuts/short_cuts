@@ -1,9 +1,8 @@
 import { Avatar } from "@chakra-ui/react";
 import { render } from "@testing-library/react";
-import checkMockCall from "../../../../tests/fixtures/mock.component.call";
-import ClickLink from "../../../clickable/click.link.external/click.link.external.component";
-import DimOnHover from "../../../styles/hover.dim/hover.dim.styles";
-import NavBarAvatar, { testIDs } from "../navbar.avatar.component";
+import { renderToString } from "react-dom/server";
+import { HiScissors } from "react-icons/hi";
+import NavBarAvatar from "../navbar.avatar.component";
 
 jest.mock("@chakra-ui/react", () => {
   return {
@@ -46,16 +45,6 @@ describe("NavBarAvatar", () => {
       arrange(mockImage);
     });
 
-    it("should call DimOnHover with the correct props", async () => {
-      expect(DimOnHover).toBeCalledTimes(1);
-      checkMockCall(DimOnHover, { "data-testid": testIDs.NavBarAvatarLink });
-    });
-
-    it("should call ClickLink with the correct props", async () => {
-      expect(ClickLink).toBeCalledTimes(1);
-      checkMockCall(ClickLink, { href: mockHref });
-    });
-
     it("should render the Avatar component correctly", () => {
       expect(Avatar).toBeCalledTimes(1);
       const call = (Avatar as jest.Mock).mock.calls[0][0];
@@ -63,7 +52,9 @@ describe("NavBarAvatar", () => {
       expect(call.loading).toBe("eager");
       expect(call.size).toBe("sm");
       expect(call.src).toBe(mockImage);
-      expect(call.icon).toBeUndefined();
+      expect(renderToString(call.icon)).toBe(
+        renderToString(<HiScissors size={25} />)
+      );
     });
   });
 
@@ -73,16 +64,6 @@ describe("NavBarAvatar", () => {
       arrange("");
     });
 
-    it("should call DimOnHover with the correct props", async () => {
-      expect(DimOnHover).toBeCalledTimes(1);
-      checkMockCall(DimOnHover, { "data-testid": testIDs.NavBarAvatarLink });
-    });
-
-    it("should call ClickLink with the correct props", async () => {
-      expect(ClickLink).toBeCalledTimes(1);
-      checkMockCall(ClickLink, { href: mockHref });
-    });
-
     it("should render the Avatar component correctly", () => {
       expect(Avatar).toBeCalledTimes(1);
       const call = (Avatar as jest.Mock).mock.calls[0][0];
@@ -90,7 +71,9 @@ describe("NavBarAvatar", () => {
       expect(call.loading).toBe("eager");
       expect(call.size).toBe("sm");
       expect(call.src).toBe("");
-      expect(call.icon).toBeUndefined();
+      expect(renderToString(call.icon)).toBe(
+        renderToString(<HiScissors size={25} />)
+      );
     });
   });
 });

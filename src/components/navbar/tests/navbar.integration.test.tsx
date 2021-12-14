@@ -1,12 +1,10 @@
 import { render, screen, fireEvent, within } from "@testing-library/react";
 import { RouterContext } from "next/dist/shared/lib/router-context";
 import navbarTranslations from "../../../../public/locales/en/navbar.json";
-import externalLinks from "../../../config/external";
 import NavConfig from "../../../config/navbar";
 import mockAnalyticsHook from "../../../hooks/tests/analytics.mock.hook";
 import NavBarProvider from "../../../providers/navbar/navbar.provider";
 import mockRouter from "../../../tests/fixtures/mock.router";
-import { testIDs as NavBarAvatarTestIDs } from "../navbar.avatar/navbar.avatar.component";
 import NavBar, { testIDs } from "../navbar.component";
 import type { JSONstringType } from "../../../types/general/json.d";
 
@@ -150,34 +148,6 @@ describe("NavBar", () => {
       for (let i = 0; i < clickAbleLinks.length; i++) {
         testLink(clickAbleLinks[i], testIDs.NavBarMobileMenu, true);
       }
-    });
-
-    describe("when the avatar image is clicked", () => {
-      beforeEach(async () => {
-        const image = (
-          await screen.findByTestId(NavBarAvatarTestIDs.NavBarAvatarLink)
-        ).firstChild?.firstChild as HTMLElement;
-        fireEvent.click(image);
-      });
-
-      it(`should produce an analytics event`, async () => {
-        expect(mockAnalyticsHook.trackExternalLinkClick).toBeCalledTimes(1);
-        const call = mockAnalyticsHook.trackExternalLinkClick.mock.calls[0];
-        expect(call[0].constructor.name).toBe("SyntheticBaseEvent");
-        expect(call[1]).toBe(externalLinks.defaultProfile);
-        expect(Object.keys(call).length).toBe(2);
-      });
-
-      it(`the avatar should reference the external link correctly`, async () => {
-        const link = (await screen.findByTestId(
-          NavBarAvatarTestIDs.NavBarAvatarLink
-        )) as HTMLElement;
-        expect(link.firstChild).toHaveAttribute(
-          "href",
-          externalLinks.defaultProfile
-        );
-        expect(link.firstChild).toHaveAttribute("target", "_blank");
-      });
     });
   });
 });
