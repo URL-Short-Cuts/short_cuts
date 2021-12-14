@@ -1,4 +1,8 @@
 {
+  "altText": {
+    "lastfm": "last.fm",
+    "svs": "Shared Vision Solutions"
+  },
   "analytics": {
     "acceptMessage": "Yes, that's fine.",
     "declineMessage": "No thank you.",
