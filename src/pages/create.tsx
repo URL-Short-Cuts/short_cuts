@@ -3,7 +3,7 @@ import Create from "../components/create/create.url.component";
 import ErrorBoundary from "../components/errors/boundary/error.boundary.component";
 import routes from "../config/routes";
 import Events from "../events/events";
-import FourOhFour from "../pages/404";
+import FourOhFour from "../pages/_notFound";
 import pagePropsGenerator from "../utils/page.props.static";
 import { voidFn } from "../utils/voids";
 

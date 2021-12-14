@@ -3,7 +3,7 @@ import ErrorBoundary from "../components/errors/boundary/error.boundary.componen
 import ErrorDisplay from "../components/errors/display/error.display.component";
 import routes from "../config/routes";
 import Events from "../events/events";
-import Page from "../pages/404";
+import Page from "../pages/_notFound";
 import mockCheckCall from "../tests/fixtures/mock.component.call";
 import getPageProps from "../utils/page.props.static";
 

@@ -3,7 +3,7 @@ import CreateUrl from "../components/create/create.url.component";
 import ErrorBoundary from "../components/errors/boundary/error.boundary.component";
 import routes from "../config/routes";
 import Events from "../events/events";
-import FourOhFour from "../pages/404";
+import FourOhFour from "../pages/_notFound";
 import Page from "../pages/create";
 import mockCheckCall from "../tests/fixtures/mock.component.call";
 import mockWindow, { restoreWindow } from "../tests/fixtures/mock.window";
@@ -19,7 +19,7 @@ jest.mock("../components/create/create.url.component", () =>
   jest.fn(() => <div>CreateUrl</div>)
 );
 
-jest.mock("../pages/404", () => jest.fn(() => <div>FourOhFour</div>));
+jest.mock("../pages/_notFound", () => jest.fn(() => <div>FourOhFour</div>));
 
 const createMockedComponent = (name: string) => {
   const {
