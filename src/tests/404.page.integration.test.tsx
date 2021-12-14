@@ -1,7 +1,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import translation from "../../public/locales/en/main.json";
 import routes from "../config/routes";
-import Custom404 from "../pages/404";
+import Custom404 from "../pages/_notFound";
 import mockRouter from "../tests/fixtures/mock.router";
 
 jest.mock("next/router", () => ({
