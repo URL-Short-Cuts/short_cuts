@@ -1,4 +1,5 @@
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
+import About from "../components/about/about.component";
 import ErrorBoundary from "../components/errors/boundary/error.boundary.component";
 import routes from "../config/routes";
 import Events from "../events/events";
@@ -10,6 +11,10 @@ jest.mock("../utils/page.props.static", () => jest.fn());
 
 jest.mock("../components/errors/boundary/error.boundary.component", () =>
   createMockedComponent("ErrorBoundary")
+);
+
+jest.mock("../components/about/about.component", () =>
+  createMockedComponent("About")
 );
 
 const createMockedComponent = (name: string) => {
@@ -24,7 +29,7 @@ describe("getStaticProps", () => {
     expect(getPageProps).toBeCalledTimes(1);
     expect(getPageProps).toBeCalledWith({
       pageKey: "about",
-      translations: [],
+      translations: ["about"],
     });
   });
 });
@@ -52,8 +57,9 @@ describe("About", () => {
       );
     });
 
-    it("should call the About component", async () => {
-      await screen.findAllByText("Mock About Page");
+    it("should call the Splash component", () => {
+      expect(About).toBeCalledTimes(1);
+      mockCheckCall(About, {});
     });
   });
 });

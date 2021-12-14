@@ -1,0 +1,12 @@
+{
+  "title": "About",
+  "company": "Shared Vision Solutions",
+  "creditText": "Brought to you by:",
+  "aboutText1": "This app generates URL Shortcuts on request",
+  "aboutText2": "An efficient hashing algorithm keeps the Shortcuts small",
+  "aboutText3": "S3 and DynamoDB are used to minimize cost/operational complexity",
+  "buttons": {
+    "start": "Get Started!",
+    "privacy": "Privacy Policy"
+  }
+}
