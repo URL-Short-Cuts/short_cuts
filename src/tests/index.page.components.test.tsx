@@ -81,7 +81,7 @@ describe("Index", () => {
       mockCheckCall(
         FormUI,
         {
-          route: routes.about,
+          route: routes.create,
           title: formTranslations.url.title,
         },
         0,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Create from "../components/create/create.url.component";
+import CreateContainer from "../components/create/create.container.component";
 import ErrorBoundary from "../components/errors/boundary/error.boundary.component";
 import routes from "../config/routes";
 import Events from "../events/events";
@@ -36,12 +36,12 @@ export default function CreatePage() {
       route={routes.home}
       stateReset={voidFn}
     >
-      <Create url={createURL} />
+      <CreateContainer url={createURL} />
     </ErrorBoundary>
   );
 }
 
 export const getStaticProps = pagePropsGenerator({
-  pageKey: "home",
+  pageKey: "create",
   translations: ["create"],
 });

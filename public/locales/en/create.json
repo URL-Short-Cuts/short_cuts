@@ -1,1 +1,6 @@
-{}
+{
+  "title": "Your Short Cut is Ready!",
+  "buttons": {
+    "again": "Create Another"
+  }
+}

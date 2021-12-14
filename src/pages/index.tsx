@@ -15,7 +15,7 @@ export default function IndexPage() {
       route={routes.home}
       stateReset={voidFn}
     >
-      <FormUI title={t("url.title")} route={routes.about} t={t} />
+      <FormUI title={t("url.title")} route={routes.create} t={t} />
     </ErrorBoundary>
   );
 }

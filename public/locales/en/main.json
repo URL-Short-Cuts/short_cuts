@@ -9,6 +9,7 @@
     "message1": "This website uses third party cookies to collect usage data so that we can improve the service.  These cookies are stored in your browser as an identity tag, and are sent to the server with each request.",
     "message2": "Are you comfortable allowing us to do this?"
   },
+  "loading": "Loading ...",
   "errors": {
     "404": {
       "title": "Page not found!",
@@ -17,6 +18,7 @@
     },
     "generic": {
       "title": "An error has occurred!",
+      "message": "Something unexpected has happened...",
       "resetButton": "Try Again!"
     }
   },
