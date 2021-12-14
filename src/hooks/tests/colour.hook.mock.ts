@@ -56,6 +56,11 @@ const mockColourHook = {
     hoverBackground: mockColour(),
     selectedBackground: mockColour(),
   },
+  notificationColour: {
+    background: mockColour(),
+    border: mockColour(),
+    foreground: mockColour(),
+  },
   warningIconColour: {
     icon: mockColour(),
   },

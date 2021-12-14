@@ -30,7 +30,10 @@ describe("PopUp", () => {
         <UserInterfacePopUpsContext.Provider
           value={{
             dispatch: mockDispatch,
-            status: { [mockPopUpName]: { status: isOpen } },
+            status: {
+              [mockPopUpName]: { status: isOpen },
+              ClipBoard: { status: isOpen },
+            },
           }}
         >
           <Popup

@@ -59,6 +59,11 @@ const useColour = () => {
       hoverBackground: chooseColour("gray.400", "gray.700"),
       selectedBackground: chooseColour("gray.400", "gray.700"),
     },
+    notificationColour: {
+      background: chooseColour("green.300", "green.300"),
+      border: chooseColour("gray.900", "gray.900"),
+      foreground: chooseColour("gray.800", "gray.800"),
+    },
     warningIconColour: {
       icon: chooseColour("yellow.800", "yellow.200"),
     },

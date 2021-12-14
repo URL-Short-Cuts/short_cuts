@@ -64,7 +64,10 @@ describe("useUserInterface", () => {
     beforeEach(() => {
       received = arrange(
         {
-          status: { [mockPopup]: { status: false } },
+          status: {
+            [mockPopup]: { status: false },
+            ClipBoard: { status: false },
+          },
           dispatch: mockPopUpDispatch,
         },
         {
