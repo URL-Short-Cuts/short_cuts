@@ -1,6 +1,6 @@
 import { body, validationResult } from "express-validator";
 import EndpointFactoryBase from "./endpoint.base.class";
-import routes from "../../../config/routes";
+import { STATUS_404_MESSAGE } from "../../../config/status";
 import { isValidUrl } from "../../../validators/urls";
 import IntegrationError from "../../integrations/integration.error.class";
 import type { APIRequest } from "../../../types/api/request.d";
@@ -23,7 +23,7 @@ export default abstract class UrlEndpointFactoryBase extends EndpointFactoryBase
           throw new IntegrationError("Invalid url specified.", 400);
         } else {
           const integrationResponse = await this.postIntegration(req.body.url);
-          res.status(200).json(integrationResponse);
+          res.status(201).json(integrationResponse);
         }
         next();
       }
@@ -36,9 +36,9 @@ export default abstract class UrlEndpointFactoryBase extends EndpointFactoryBase
         const integrationResponse = await this.getIntegration(
           String(req.query.id)
         );
-        res.redirect(301, integrationResponse.url);
+        res.status(200).json(integrationResponse);
       } catch (err) {
-        res.redirect(302, routes[404]);
+        res.status(404).json(STATUS_404_MESSAGE);
       }
       next();
     });

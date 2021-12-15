@@ -64,8 +64,8 @@ describe(apiRoutes.v1.urls + "/:id", () => {
         });
 
         it("should return a 200 status code", () => {
-          expect(res._getStatusCode()).toBe(301);
-          expect(res._getRedirectUrl()).toBe(mockUrl);
+          expect(res._getStatusCode()).toBe(200);
+          expect(res._getJSONData()).toStrictEqual({ url: mockUrl });
         });
 
         it("should call the database integration with the correct params", () => {
