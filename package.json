@@ -66,8 +66,7 @@
     ],
     "coveragePathIgnorePatterns": [
       "<rootDir>/src/pages/_app.tsx",
-      "<rootDir>/src/pages/_document.tsx",
-      "<rootDir>/src/pages/\\[...path\\].tsx"
+      "<rootDir>/src/pages/_document.tsx"
     ],
     "coverageReporters": [
       "text",

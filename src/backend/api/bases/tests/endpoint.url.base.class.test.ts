@@ -78,8 +78,8 @@ describe("UrlEndpointFactoryBase", () => {
           await arrange();
         });
 
-        it("should return a 200", () => {
-          expect(res._getStatusCode()).toBe(200);
+        it("should return a 201", () => {
+          expect(res._getStatusCode()).toBe(201);
           expect(res._getJSONData()).toStrictEqual(status.STATUS_200_MESSAGE);
         });
       });
@@ -134,9 +134,9 @@ describe("UrlEndpointFactoryBase", () => {
         await arrange();
       });
 
-      it("should return a 301", () => {
-        expect(res._getStatusCode()).toBe(301);
-        expect(res._getRedirectUrl()).toStrictEqual("http://yahoo.com");
+      it("should return a 200", () => {
+        expect(res._getStatusCode()).toBe(200);
+        expect(res._getJSONData()).toStrictEqual({ url: "http://yahoo.com" });
       });
     });
 
@@ -147,9 +147,9 @@ describe("UrlEndpointFactoryBase", () => {
         await arrange();
       });
 
-      it("should return a 302", () => {
-        expect(res._getStatusCode()).toBe(302);
-        expect(res._getRedirectUrl()).toStrictEqual("/_notFound");
+      it("should return a 404", () => {
+        expect(res._getStatusCode()).toBe(404);
+        expect(res._getJSONData()).toStrictEqual(status.STATUS_404_MESSAGE);
       });
     });
   });

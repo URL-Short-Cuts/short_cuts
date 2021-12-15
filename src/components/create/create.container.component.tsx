@@ -40,12 +40,12 @@ export default function CreateUrlContainer({ url }: CreateUrlInterface) {
       <Condition isTrue={status === null}>
         <BillBoardSpinner title={t("loading")} visible={true} />
       </Condition>
-      <Condition isTrue={status === 200 && url !== null}>
+      <Condition isTrue={status === 201 && url !== null}>
         <>
           <Create url={String(created)} />;
         </>
       </Condition>
-      <Condition isTrue={status !== 200 && status !== null}>
+      <Condition isTrue={status !== 201 && status !== null}>
         <>
           <ErrorDisplay errorKey={"generic"} resetError={goHome} />
         </>

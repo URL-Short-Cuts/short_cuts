@@ -1,4 +1,5 @@
 import apiRoutes from "../config/apiRoutes";
+import routes from "../config/routes";
 import type { GetServerSideProps } from "next";
 
 export default function Redirect() {
@@ -6,12 +7,25 @@ export default function Redirect() {
 }
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
+  // Although the original implementation of this was really nice and simple
+  // This alternative is a bit more respective of REST
   let path = "_";
-  if (context.query.path) path = context.query.path[0];
+  let destination = routes[404];
+  let permanent = false;
+
+  if (context.query.path && context.query.path.length > 0)
+    path = context.query.path[0];
+  const response = await fetch(
+    process.env.HOSTNAME + apiRoutes.v1.urls + "/" + path
+  );
+  if (response.status === 200) {
+    destination = String((await response.json()).url);
+    permanent = true;
+  }
   return {
     redirect: {
-      destination: apiRoutes.v1.urls + "/" + path,
-      permanent: false,
+      destination,
+      permanent,
     },
   };
 };

@@ -40,7 +40,7 @@ describe("CreateContainer", () => {
 
     describe("after creation is successful", () => {
       beforeEach(() => {
-        mockUseUrl.status = 200;
+        mockUseUrl.status = 201;
         mockUseUrl.created = mockUrl;
         arrange(mockUrl);
       });

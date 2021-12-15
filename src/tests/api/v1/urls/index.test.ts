@@ -84,8 +84,8 @@ describe(apiRoutes.v1.urls, () => {
           await arrange({ body: payload, method });
         });
 
-        it("should return a 200 status code", () => {
-          expect(res._getStatusCode()).toBe(200);
+        it("should return a 201 status code", () => {
+          expect(res._getStatusCode()).toBe(201);
           expect(res._getJSONData()).toStrictEqual({
             url: mockHostname + "/" + mockDatabaseResponseValue,
           });
