@@ -11,7 +11,7 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   // This alternative is a bit more respective of REST
   let path = "_";
   let destination = routes[404];
-  let permanent = false;
+  let statusCode: 301 | 302 = 302;
 
   if (context.query.path && context.query.path.length > 0)
     path = context.query.path[0];
@@ -20,12 +20,12 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
   );
   if (response.status === 200) {
     destination = String((await response.json()).url);
-    permanent = true;
+    statusCode = 301 as const;
   }
   return {
     redirect: {
+      statusCode,
       destination,
-      permanent,
     },
   };
 };
