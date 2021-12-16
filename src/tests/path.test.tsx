@@ -81,8 +81,8 @@ describe("getServerSideProps", () => {
       it("should return the expected response", () => {
         expect(serverResponse).toStrictEqual({
           redirect: {
+            statusCode: 301,
             destination: mockUrl,
-            permanent: true,
           },
         });
       });
@@ -107,7 +107,7 @@ describe("getServerSideProps", () => {
         expect(serverResponse).toStrictEqual({
           redirect: {
             destination: routes[404],
-            permanent: false,
+            statusCode: 302,
           },
         });
       });
@@ -155,7 +155,7 @@ describe("getServerSideProps", () => {
         expect(serverResponse).toStrictEqual({
           redirect: {
             destination: routes[404],
-            permanent: false,
+            statusCode: 302,
           },
         });
       });
