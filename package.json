@@ -5,7 +5,7 @@
     "dev": "next dev",
     "build": "next build",
     "preinstall": "npx npm-force-resolutions",
-    "start": "next start",
+    "start": "next start -p $PORT",
     "lint": "next lint --dir ./src --dir ./jest",
     "lint:clean": "next lint --fix --dir ./jest --dir ./src; prettier --write \"./(src|jest)/**/*.+(ts|tsx|js|jsx|json|yml|yaml|css|scss|md|vue)\"",
     "test": "jest --watch",
