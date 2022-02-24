@@ -2,8 +2,9 @@
 name: URL Short Cuts CI/CD
 
 # CI_ENVIRONMENT_CONTENT            - Environment file content for the ci environment
-# STAGE_AMPLIFY_WEBHOOK             - Deployment Hook for Amplify
 # STAGE_ENDPOINT_NAME               - Endpoint for the Stage environment
+# STAGE_ENVIRONMENT_CONTENT         - Environment file content for the stage environment
+# HEROKU_API_KEY                    - API Key for Heroku
 
 on:
   push:
@@ -13,14 +14,14 @@ on:
 
 env:
   PROJECT_NAME: "short_cuts"
-  STAGE_ENDPOINT_NAME: ""
+  STAGE_HEROKU_PROJECT_NAME: "shortcuts-stage-docker"
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Build -- Setup Environment
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Build -- Setup Environment
         run: |
@@ -47,7 +48,7 @@ jobs:
         run: |
           ./.github/scripts/notifications.sh "${NOTIFICATION}" ":x: error during build!"
 
-  deploy_stage:
+  deploy_stage_docker:
     needs: [success_notification]
 
     runs-on: ubuntu-latest
@@ -55,7 +56,7 @@ jobs:
     steps:
       - name: Deploy Stage -- Checkout Repository
         if: github.ref == 'refs/heads/master'
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Deploy Stage -- Setup Environment
         if: github.ref == 'refs/heads/master'
@@ -64,30 +65,32 @@ jobs:
         env:
           WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
-      - name: Deploy Stage -- Trigger Amplify
+      - name: Deploy Stage -- Publish to Heroku
         if: github.ref == 'refs/heads/master'
         run: |
-          curl -X POST -d {} "${STAGE_AMPLIFY_WEBHOOK}" -H "Content-Type:application/json"
+          docker login --username=_ --password=${HEROKU_API_KEY} registry.heroku.com
+          heroku container:push web -a "${STAGE_HEROKU_PROJECT_NAME}"
+          heroku container:release web -a "${STAGE_HEROKU_PROJECT_NAME}"
         env:
-          STAGE_AMPLIFY_WEBHOOK: ${{ secrets.STAGE_AMPLIFY_WEBHOOK }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
 
       - name: Deploy Stage -- Report Job Status on Success
         if: github.ref == 'refs/heads/master'
         run: |
-          ./.github/scripts/notifications.sh "${NOTIFICATION}" ":white_check_mark: triggered amplify deploy to ${STAGE_ENDPOINT_NAME}"
+          ./.github/scripts/notifications.sh "${NOTIFICATION}" ":white_check_mark: deployed with Heroku to ${STAGE_ENDPOINT_NAME}"
         env:
           STAGE_ENDPOINT_NAME: ${{ secrets.STAGE_ENDPOINT_NAME }}
 
       - name: Deploy Stage -- Report Job Status on Failure
         if: failure()
         run: |
-          ./.github/scripts/notifications.sh "${NOTIFICATION}" ":x: error triggering deploy!"
+          ./.github/scripts/notifications.sh "${NOTIFICATION}" ":x: error deploying to heroku!"
 
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Lint -- Checkout Repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Lint -- Setup Environment
         run: |
@@ -113,7 +116,9 @@ jobs:
 
     steps:
       - name: Security Test -- Checkout Repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Documentation Test -- Setup Environment
         run: |
@@ -142,7 +147,7 @@ jobs:
 
     steps:
       - name: Shellcheck -- Checkout Repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Shellcheck -- Setup Environment
         run: |
@@ -164,7 +169,7 @@ jobs:
 
     steps:
       - name: Start -- Checkout Repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Start -- Setup Environment
         run: |
@@ -197,7 +202,7 @@ jobs:
 
     steps:
       - name: Success -- Checkout Repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Success -- Setup Environment
         run: |
@@ -219,7 +224,7 @@ jobs:
 
     steps:
       - name: Type Validation -- Checkout Repository
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - name: Type Validation -- Setup Environment
         run: |
@@ -249,7 +254,7 @@ jobs:
 
     steps:
       - name: Workflow Lint -- Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v1
+        uses: actions/setup-python@v2
         with:
           python-version: ${{ matrix.python-version }}
 
