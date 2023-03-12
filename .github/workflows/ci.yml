@@ -4,7 +4,6 @@ name: URL Short Cuts CI/CD
 # CI_ENVIRONMENT_CONTENT            - Environment file content for the ci environment
 # STAGE_ENDPOINT_NAME               - Endpoint for the Stage environment
 # STAGE_ENVIRONMENT_CONTENT         - Environment file content for the stage environment
-# HEROKU_API_KEY                    - API Key for Heroku
 
 on:
   push:
@@ -14,20 +13,27 @@ on:
 
 env:
   PROJECT_NAME: "short_cuts"
-  STAGE_HEROKU_PROJECT_NAME: "shortcuts-stage-docker"
+  STAGE_NETLIFY_NAME: "stage-shortcuts"
+  NETLIFY_CLI: netlify-cli
+  NODE_VERSION: 16
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Build -- Setup Environment
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Build -- Setup Environment
         run: |
           source .github/scripts/setup.sh
         env:
           WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Build -- Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Build -- Install Node Modules
         run: |
@@ -56,7 +62,7 @@ jobs:
     steps:
       - name: Deploy Stage -- Checkout Repository
         if: github.ref == 'refs/heads/master'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Deploy Stage -- Setup Environment
         if: github.ref == 'refs/heads/master'
@@ -65,38 +71,50 @@ jobs:
         env:
           WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
-      - name: Deploy Stage -- Publish to Heroku
+      - name: Deploy Stage -- Setup Node
         if: github.ref == 'refs/heads/master'
-        run: |
-          docker login --username=_ --password=${HEROKU_API_KEY} registry.heroku.com
-          heroku container:push web -a "${STAGE_HEROKU_PROJECT_NAME}"
-          heroku container:release web -a "${STAGE_HEROKU_PROJECT_NAME}"
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Deploy Stage -- Install `flyctl` binary
+        if: github.ref == 'refs/heads/master'
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Deploy Stage -- Deploy to fly.io
+        if: github.ref == 'refs/heads/master'
+        run: flyctl deploy --remote-only
         env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
       - name: Deploy Stage -- Report Job Status on Success
         if: github.ref == 'refs/heads/master'
         run: |
-          ./.github/scripts/notifications.sh "${NOTIFICATION}" ":white_check_mark: deployed with Heroku to ${STAGE_ENDPOINT_NAME}"
+          ./.github/scripts/notifications.sh "${NOTIFICATION}" ":white_check_mark: deployed with Fly.io to ${STAGE_ENDPOINT_NAME}"
         env:
           STAGE_ENDPOINT_NAME: ${{ secrets.STAGE_ENDPOINT_NAME }}
 
       - name: Deploy Stage -- Report Job Status on Failure
         if: failure()
         run: |
-          ./.github/scripts/notifications.sh "${NOTIFICATION}" ":x: error deploying to heroku!"
+          ./.github/scripts/notifications.sh "${NOTIFICATION}" ":x: error deploying to Fly.io!"
 
   lint:
     runs-on: ubuntu-latest
     steps:
       - name: Lint -- Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Lint -- Setup Environment
         run: |
           source .github/scripts/setup.sh
         env:
           WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Lint -- Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Lint -- Install Node Modules
         run: |
@@ -116,7 +134,7 @@ jobs:
 
     steps:
       - name: Security Test -- Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -126,6 +144,11 @@ jobs:
         env:
           WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
+      - name: Security Test -- Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
       - name: Security Test -- Install Node Modules
         run: |
           npm ci
@@ -134,8 +157,11 @@ jobs:
         run: |
           npm audit --production
 
-      - name: Security Test -- Run Gitleaks
-        uses: zricethezav/gitleaks-action@v1.6.0
+      - name: Security Test -- Run Trufflehog
+        uses: trufflesecurity/trufflehog@v3.29.1
+        with:
+          head: ${{ env.BRANCH_OR_TAG }}
+          path: .
 
       - name: Security Test -- Report Failure
         if: failure()
@@ -147,7 +173,7 @@ jobs:
 
     steps:
       - name: Shellcheck -- Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Shellcheck -- Setup Environment
         run: |
@@ -169,7 +195,7 @@ jobs:
 
     steps:
       - name: Start -- Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Start -- Setup Environment
         run: |
@@ -202,7 +228,7 @@ jobs:
 
     steps:
       - name: Success -- Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Success -- Setup Environment
         run: |
@@ -224,13 +250,18 @@ jobs:
 
     steps:
       - name: Type Validation -- Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Type Validation -- Setup Environment
         run: |
           source ./.github/scripts/setup.sh
         env:
           WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
+
+      - name: Type Validation -- Setup Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
 
       - name: Type Validation -- Install Node Modules
         run: |
@@ -254,7 +285,7 @@ jobs:
 
     steps:
       - name: Workflow Lint -- Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
 

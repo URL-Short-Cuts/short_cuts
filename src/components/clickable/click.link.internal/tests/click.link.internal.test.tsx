@@ -32,7 +32,7 @@ describe("ButtonLink", () => {
 
   it("should render NextLink as expected", () => {
     expect(NextLink).toBeCalledTimes(1);
-    const call = (NextLink as jest.Mock).mock.calls[0];
+    const call = jest.mocked(NextLink).mock.calls[0];
     expect(call[0].href).toBe(mockHref);
     expect(call[0].children).toBeDefined();
     expect(Object.keys(call[0]).length).toBe(2);
