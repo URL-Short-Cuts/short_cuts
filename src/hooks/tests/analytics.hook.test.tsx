@@ -14,7 +14,9 @@ import type { MouseEvent, ReactNode } from "react";
 
 jest.mock("react-ga");
 
-jest.mock("next/router");
+jest.mock("next/router", () => ({
+  useRouter: jest.fn(),
+}));
 
 interface MockAnalyticsContextWithChildren {
   children?: ReactNode;

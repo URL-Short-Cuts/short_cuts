@@ -5,12 +5,15 @@ import NavBar from "../components/navbar/navbar.component";
 import PopUps from "../components/popups/root.popup";
 import NavConfig from "../config/navbar";
 import RootProvider from "../providers/root.provider";
+import type { HeaderProps } from "../components/header/header.component";
 import type { AppProps } from "next/app";
+
+export type ShortCutsProps = AppProps<{ headerProps: HeaderProps }>;
 
 function App({
   Component,
   pageProps: { headerProps, ...otherProps },
-}: AppProps) {
+}: ShortCutsProps) {
   return (
     <RootProvider headerProps={headerProps}>
       <NavBar menuConfig={NavConfig.menuConfig} />
@@ -20,4 +23,4 @@ function App({
     </RootProvider>
   );
 }
-export default appWithTranslation(App);
+export default appWithTranslation(App as (props: AppProps) => JSX.Element);
