@@ -85,7 +85,7 @@ describe("DynamoDBIntegration", () => {
       describe("when the error is a ConditionalCheckFailedException", () => {
         beforeEach(() => {
           mockError.name = integration.conditionalCheckErrorName;
-          (UpdateItemCommand as jest.Mock).mockImplementation(() => {
+          (UpdateItemCommand as unknown as jest.Mock).mockImplementation(() => {
             throw mockError;
           });
         });
@@ -109,7 +109,7 @@ describe("DynamoDBIntegration", () => {
       describe("when the error is NOT a ConditionalCheckFailedException", () => {
         beforeEach(() => {
           mockError.name = "unknownError";
-          (UpdateItemCommand as jest.Mock).mockImplementation(() => {
+          (UpdateItemCommand as unknown as jest.Mock).mockImplementation(() => {
             throw mockError;
           });
         });
