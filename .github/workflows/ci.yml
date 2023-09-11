@@ -158,10 +158,11 @@ jobs:
           npm audit --production
 
       - name: Security Test -- Run Trufflehog
-        uses: trufflesecurity/trufflehog@v3.29.1
+        uses: trufflesecurity/trufflehog@v3.54.4
         with:
           head: ${{ env.BRANCH_OR_TAG }}
           path: .
+          extra_args: --only-verified
 
       - name: Security Test -- Report Failure
         if: failure()
