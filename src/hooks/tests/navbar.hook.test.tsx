@@ -1,8 +1,9 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook } from "@testing-library/react";
 import dk from "deep-keys";
 import mockUseNavBar from "./navbar.mock.hook";
 import NavConfig from "../../config/navbar";
 import { NavBarContext } from "../../providers/navbar/navbar.provider";
+import { createHookWrapper } from "../../tests/fixtures/mock.hook.wrapper";
 import useNavBar from "../navbar";
 import type { NavBarContextInterface } from "../../types/navbar/provider.d";
 import type { ReactNode } from "react";
@@ -42,10 +43,12 @@ describe("useNavBar", () => {
 
   const arrange = (providerProps: NavBarContextInterface) => {
     return renderHook(() => useNavBar(), {
-      wrapper: providerWrapper,
-      initialProps: {
-        mockContext: providerProps,
-      },
+      wrapper: createHookWrapper<MockInterfaceContextWithChildren>(
+        providerWrapper,
+        {
+          mockContext: providerProps,
+        }
+      ),
     });
   };
 

@@ -31,19 +31,17 @@ jest.mock("../../../../hooks/colour", () => {
 
 jest.mock(
   "../../../clickable/click.link.external/click.link.external.component",
-  () => createMockedComponent("ClickLink")
+  () =>
+    require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+      "ClickLink"
+    )
 );
 
 jest.mock("../../../styles/hover.dim/hover.dim.styles", () =>
-  createMockedComponent("DimOnHover")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "DimOnHover"
+  )
 );
-
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
 
 describe("FeedbackDialogue", () => {
   const mockClose = jest.fn();

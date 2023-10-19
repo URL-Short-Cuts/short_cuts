@@ -1,8 +1,10 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import formTranslations from "../../../../../public/locales/en/forms.json";
+import UserInterfaceRootProvider from "../../../../providers/ui/ui.root.provider";
 import mockRouter from "../../../../tests/fixtures/mock.router";
 import tLookup from "../../../../tests/fixtures/mock.translation";
 import FormUI from "../url.ui.component";
+import type { TFunction } from "../../../../types/translations/hook.types";
 
 jest.mock("next/router", () => ({
   __esModule: true,
@@ -11,7 +13,7 @@ jest.mock("next/router", () => ({
 
 describe("FormIntegrationTest", () => {
   let enteredURL: string;
-  const mockT = jest.fn((key) => tLookup(key, formTranslations));
+  const mockT = jest.fn((key) => tLookup(key, formTranslations)) as TFunction;
   const mockTitle = "mockTitle";
   const mockRoute = "/mock/route";
 
@@ -21,7 +23,11 @@ describe("FormIntegrationTest", () => {
   });
 
   const arrange = () => {
-    render(<FormUI t={mockT} title={mockTitle} route={mockRoute} />);
+    render(
+      <UserInterfaceRootProvider>
+        <FormUI t={mockT} title={mockTitle} route={mockRoute} />
+      </UserInterfaceRootProvider>
+    );
   };
 
   it("should display the correct title", async () => {

@@ -17,10 +17,17 @@ jest.mock("@chakra-ui/react", () => {
 });
 
 jest.mock("../../../billboard/billboard.component", () =>
-  createMockedComponent("BillBoard")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "Billboard"
+  )
 );
 
 jest.mock("../url.container.component", () => {
+  const createMock = (name: string) =>
+    jest.fn(({ children }: { children: React.ReactNode }) => {
+      return <div data-testid={name}>{children}</div>;
+    });
+
   return {
     __esModule: true,
     default: createMock("FormComponent"),
@@ -33,18 +40,6 @@ jest.mock("@chakra-ui/icons", () => {
   } = require("../../../../tests/fixtures/mock.chakra.icon.factory.class");
   return factoryInstance.create(["SearchIcon"]);
 });
-
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
-
-const createMock = (name: string) =>
-  jest.fn(({ children }: { children: React.ReactChildren }) => {
-    return <div data-testid={name}>{children}</div>;
-  });
 
 describe("FormUI", () => {
   const testField = "test_field";

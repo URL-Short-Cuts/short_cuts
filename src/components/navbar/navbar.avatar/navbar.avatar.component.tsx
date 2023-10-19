@@ -1,10 +1,6 @@
 import { Avatar } from "@chakra-ui/react";
 import { HiScissors } from "react-icons/hi";
 
-export const testIDs = {
-  NavBarAvatarLink: "NavBarAvatarLink",
-};
-
 interface NavBarAvatarProps {
   href: string;
   image: string;

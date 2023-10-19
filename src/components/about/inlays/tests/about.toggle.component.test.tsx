@@ -4,6 +4,7 @@ import translations from "../../../../../public/locales/en/about.json";
 import checkMockCall from "../../../../tests/fixtures/mock.component.call";
 import tLookup from "../../../../tests/fixtures/mock.translation";
 import Toggle from "../about.toggle.component";
+import type { TFunction } from "../../../../types/translations/hook.types";
 
 jest.mock("../../../icons/svs/svs.icon", () =>
   jest.fn(() => <div>MockIcon</div>)
@@ -17,7 +18,7 @@ jest.mock("@chakra-ui/react", () => {
 });
 
 describe("AboutToggle", () => {
-  const mockT = jest.fn((key) => tLookup(key, translations));
+  const mockT = jest.fn((key) => tLookup(key, translations)) as TFunction;
 
   beforeEach(() => {
     jest.clearAllMocks();

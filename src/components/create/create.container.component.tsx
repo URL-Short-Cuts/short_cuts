@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
 import Create from "./create.component";
 import routes from "../../config/routes";
 import useUrl from "../../hooks/url";

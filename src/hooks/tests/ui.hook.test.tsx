@@ -1,8 +1,9 @@
-import { renderHook } from "@testing-library/react-hooks";
+import { renderHook } from "@testing-library/react";
 import dk from "deep-keys";
 import mockUserInterfaceHook from "./ui.mock.hook";
 import { UserInterfaceImagesContext } from "../../providers/ui/ui.images/ui.images.provider";
 import { UserInterfacePopUpsContext } from "../../providers/ui/ui.popups/ui.popups.provider";
+import { createHookWrapper } from "../../tests/fixtures/mock.hook.wrapper";
 import useUserInterface from "../ui";
 import type { UserInterfaceImagesContextInterface } from "../../types/ui/images/provider.d";
 import type { UserInterfacePopUpsContextInterface } from "../../types/ui/popups/provider.d";
@@ -52,11 +53,13 @@ describe("useUserInterface", () => {
     providerImageProps: UserInterfaceImagesContextInterface
   ) => {
     return renderHook(() => useUserInterface(), {
-      wrapper: providerWrapper,
-      initialProps: {
-        mockImageContext: providerImageProps,
-        mockPopupContext: providerPopupProps,
-      },
+      wrapper: createHookWrapper<MockInterfaceContextWithChildren>(
+        providerWrapper,
+        {
+          mockImageContext: providerImageProps,
+          mockPopupContext: providerPopupProps,
+        }
+      ),
     });
   };
 

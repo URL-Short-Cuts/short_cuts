@@ -7,11 +7,15 @@ import Condition from "../../../condition/condition.component";
 import Dialogue from "../dialogue.resizable.component";
 
 jest.mock("../../../billboard/billboard.component", () =>
-  createMockedComponent("BillBoard")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "Billboard"
+  )
 );
 
 jest.mock("../../../condition/condition.component", () =>
-  createMockedComponent("Condition")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "Condition"
+  )
 );
 
 jest.mock("@chakra-ui/react", () => {
@@ -20,13 +24,6 @@ jest.mock("@chakra-ui/react", () => {
   } = require("../../../../tests/fixtures/mock.chakra.react.factory.class");
   return factoryInstance.create(["Flex"]);
 });
-
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
 
 describe("Dialogue", () => {
   const mockProps = {

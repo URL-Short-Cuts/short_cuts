@@ -9,7 +9,9 @@ import StyledButton from "../../../button/button.standard/button.standard.compon
 import ErrorDisplay from "../error.display.component";
 
 jest.mock("../../../billboard/billboard.component", () =>
-  createMockedComponent("BillBoard")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "Billboard"
+  )
 );
 
 jest.mock("../../../../hooks/colour", () => {
@@ -17,7 +19,9 @@ jest.mock("../../../../hooks/colour", () => {
 });
 
 jest.mock("../../../button/button.standard/button.standard.component", () =>
-  createMockedComponent("StyledButton")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "StyledButton"
+  )
 );
 
 jest.mock("@chakra-ui/react", () => {
@@ -33,13 +37,6 @@ jest.mock("@chakra-ui/icons", () => {
   } = require("../../../../tests/fixtures/mock.chakra.icon.factory.class");
   return factoryInstance.create(["WarningTwoIcon"]);
 });
-
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
 
 describe("ErrorDisplay", () => {
   const mockErrorMessage = "Test Error";

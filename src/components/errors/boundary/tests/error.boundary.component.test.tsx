@@ -97,7 +97,7 @@ describe("ErrorBoundary", () => {
     });
 
     it("should report an error to jest", () => {
-      expect(consoleErrorSpy).toBeCalledTimes(2);
+      expect(consoleErrorSpy).toBeCalledTimes(3);
     });
 
     it("should NOT render the child component", () => {
@@ -109,8 +109,15 @@ describe("ErrorBoundary", () => {
     });
 
     it("should generate an analytics event", () => {
-      expect(mockAnalyticsHook.event).toBeCalledTimes(1);
-      expect(mockAnalyticsHook.event).toBeCalledWith(Events.General.Test);
+      expect(mockAnalyticsHook.event).toBeCalledTimes(2);
+      expect(mockAnalyticsHook.event).toHaveBeenNthCalledWith(
+        1,
+        Events.General.Test
+      );
+      expect(mockAnalyticsHook.event).toHaveBeenNthCalledWith(
+        2,
+        Events.General.Test
+      );
     });
 
     describe("when the error is reset", () => {

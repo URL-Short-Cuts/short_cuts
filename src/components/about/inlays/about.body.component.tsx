@@ -3,7 +3,7 @@ import externalLinks from "../../../config/external";
 import ClickLink from "../../clickable/click.link.external/click.link.external.component";
 import SVSIcon from "../../icons/svs/svs.icon";
 import DimOnHover from "../../styles/hover.dim/hover.dim.styles";
-import type { TFunction } from "next-i18next";
+import type { TFunction } from "../../../types/translations/hook.types";
 
 export default function PrivacyBody({ t }: { t: TFunction }) {
   return (

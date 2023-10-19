@@ -3,12 +3,24 @@ import { render } from "@testing-library/react";
 import checkMockCall from "../../../../tests/fixtures/mock.component.call";
 import UserInterfaceProvider from "../ui.chakra.provider";
 import createTheme from "../ui.chakra.theme";
-import type { ReactChildren } from "react";
+import type { ReactNode } from "react";
 
 jest.mock("@chakra-ui/react", () => {
   const mockedModules: { [index: string]: boolean | jest.Mock } = {
     __esModule: true,
   };
+
+  const providers = {
+    ChakraProvider: "ChakraProvider",
+    ColorModeProvider: "ColorModeProvider",
+    CSSReset: "CSSReset",
+  };
+
+  const createMock = (name: string) =>
+    jest.fn(({ children }: { children: ReactNode }) => {
+      return <div data-testid={name}>{children}</div>;
+    });
+
   Object.keys(providers).forEach((thisModule) => {
     mockedModules[thisModule as string] = createMock(thisModule);
   });
@@ -19,17 +31,6 @@ jest.mock("../ui.chakra.theme", () => {
   const chakra = jest.requireActual("@chakra-ui/react");
   return jest.fn().mockImplementation(() => chakra.extendTheme({}));
 });
-
-const createMock = (name: string) =>
-  jest.fn(({ children }: { children: ReactChildren }) => {
-    return <div data-testid={name}>{children}</div>;
-  });
-
-const providers = {
-  ChakraProvider: "ChakraProvider",
-  ColorModeProvider: "ColorModeProvider",
-  CSSReset: "CSSReset",
-};
 
 describe("UserInterfaceChakraProvider", () => {
   beforeEach(() => {

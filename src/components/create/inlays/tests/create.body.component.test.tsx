@@ -10,11 +10,15 @@ import generateBody, { TestIDs } from "../create.body.component";
 jest.mock("../../../../hooks/ui", () => jest.fn(() => mockUIHook));
 
 jest.mock("../../../styles/hover.dim/hover.dim.styles", () =>
-  createMockedComponent("DimOnHover")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "DimOnHover"
+  )
 );
 
 jest.mock("../../../highlight/highlight.component", () =>
-  createMockedComponent("HightLight")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "HighLight"
+  )
 );
 
 jest.mock("@chakra-ui/icons", () => ({
@@ -27,13 +31,6 @@ jest.mock("@chakra-ui/react", () => {
   } = require("../../../../tests/fixtures/mock.chakra.react.factory.class");
   return factoryInstance.create(["Avatar", "Box", "Center", "Flex", "Text"]);
 });
-
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
 
 describe("AboutBody", () => {
   const mockUrl = "http://yahoo.com";

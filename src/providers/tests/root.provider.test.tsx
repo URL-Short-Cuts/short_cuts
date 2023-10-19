@@ -6,27 +6,28 @@ import RootProvider from "../root.provider";
 import UserInterfaceRootProvider from "../ui/ui.root.provider";
 
 jest.mock("../../components/header/header.component", () =>
-  createProviderMock(providers.Header)
+  require("../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "Header"
+  )
 );
 
 jest.mock("../../providers/analytics/analytics.provider", () =>
-  createProviderMock(providers.AnalyticsProvider)
+  require("../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "AnalyticsProvider"
+  )
 );
 
 jest.mock("../../providers/navbar/navbar.provider", () =>
-  createProviderMock(providers.NavBarProvider)
+  require("../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "NavBarProvider"
+  )
 );
 
 jest.mock("../ui/ui.root.provider", () =>
-  createProviderMock(providers.UserInterfaceRootProvider)
+  require("../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "UserInterfaceRootProvider"
+  )
 );
-
-const createProviderMock = (name: string, exportName = "default") => {
-  const {
-    factoryInstance,
-  } = require("../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name, exportName);
-};
 
 const providers = {
   AnalyticsProvider: "AnalyticsProvider",

@@ -1,6 +1,6 @@
 import { WarningTwoIcon } from "@chakra-ui/icons";
 import { Container, Flex } from "@chakra-ui/react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "next-i18next";
 import useColour from "../../../hooks/colour";
 import Billboard from "../../billboard/billboard.component";
 import StyledButton from "../../button/button.standard/button.standard.component";

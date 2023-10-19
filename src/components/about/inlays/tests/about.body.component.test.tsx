@@ -9,14 +9,20 @@ import ClickLink from "../../../clickable/click.link.external/click.link.externa
 import SVSIcon from "../../../icons/svs/svs.icon";
 import DimOnHover from "../../../styles/hover.dim/hover.dim.styles";
 import Body from "../about.body.component";
+import type { TFunction } from "../../../../types/translations/hook.types";
 
 jest.mock(
   "../../../clickable/click.link.external/click.link.external.component",
-  () => createMockedComponent("ClickLink")
+  () =>
+    require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+      "ClickLink"
+    )
 );
 
 jest.mock("../../../styles/hover.dim/hover.dim.styles", () =>
-  createMockedComponent("DimOnHover")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "DimOnHover"
+  )
 );
 
 jest.mock("../../../icons/svs/svs.icon", () =>
@@ -30,15 +36,8 @@ jest.mock("@chakra-ui/react", () => {
   return factoryInstance.create(["Avatar", "Box", "Center", "Flex", "Text"]);
 });
 
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
-
 describe("AboutBody", () => {
-  const mockT = jest.fn((key) => tLookup(key, translations));
+  const mockT = jest.fn((key) => tLookup(key, translations)) as TFunction;
 
   beforeEach(() => {
     jest.clearAllMocks();

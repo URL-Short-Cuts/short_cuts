@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import settings from "../../../config/dialogue";
 import Billboard from "../../billboard/billboard.component";
 import Condition from "../../condition/condition.component";
-import type { TFunction } from "next-i18next";
+import type { TFunction } from "../../../types/translations/hook.types";
 import type { FC } from "react";
 
 export const testIDs = {

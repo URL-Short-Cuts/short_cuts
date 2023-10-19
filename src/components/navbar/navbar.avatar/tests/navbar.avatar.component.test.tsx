@@ -13,19 +13,17 @@ jest.mock("@chakra-ui/react", () => {
 
 jest.mock(
   "../../../clickable/click.link.external/click.link.external.component",
-  () => createMockedComponent("ClickLink")
+  () =>
+    require("../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+      "ClickLink"
+    )
 );
 
 jest.mock("../../../styles/hover.dim/hover.dim.styles", () =>
-  createMockedComponent("DimOnHover")
+  require("../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "DimOnHover"
+  )
 );
-
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
 
 describe("NavBarAvatar", () => {
   const mockHref = "https://google.ca";

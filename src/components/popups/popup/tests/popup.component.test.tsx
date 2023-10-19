@@ -7,6 +7,7 @@ import {
 } from "@testing-library/react";
 import MockPopupDialogue, { testIDs } from "./fixtures/mock.popup.dialogue";
 import mockUserInterfaceHook from "../../../../hooks/tests/ui.mock.hook";
+import UserInterfaceRootProvider from "../../../../providers/ui/ui.root.provider";
 import checkMockCall from "../../../../tests/fixtures/mock.component.call";
 import Popup from "../popup.component";
 
@@ -23,11 +24,13 @@ describe("PopUp", () => {
 
   const arrange = () => {
     render(
-      <Popup
-        name={mockName}
-        message={mockMessage}
-        Component={MockPopupDialogue}
-      />
+      <UserInterfaceRootProvider>
+        <Popup
+          name={mockName}
+          message={mockMessage}
+          Component={MockPopupDialogue}
+        />
+      </UserInterfaceRootProvider>
     );
   };
 
@@ -37,14 +40,22 @@ describe("PopUp", () => {
       arrange();
     });
 
-    it("should only open once", () => {
-      expect(MockPopupDialogue).toBeCalledTimes(1);
+    it("should open the popup (with a rerender)", () => {
+      expect(MockPopupDialogue).toBeCalledTimes(2);
       checkMockCall(
         MockPopupDialogue,
         {
           message: mockMessage,
         },
         0,
+        ["onClose"]
+      );
+      checkMockCall(
+        MockPopupDialogue,
+        {
+          message: mockMessage,
+        },
+        1,
         ["onClose"]
       );
     });

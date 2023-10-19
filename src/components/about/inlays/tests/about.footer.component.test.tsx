@@ -5,9 +5,12 @@ import checkMockCall from "../../../../tests/fixtures/mock.component.call";
 import tLookup from "../../../../tests/fixtures/mock.translation";
 import Button from "../../../button/button.standard/button.standard.component";
 import Footer from "../about.footer.component";
+import type { TFunction } from "../../../../types/translations/hook.types";
 
 jest.mock("../../../button/button.standard/button.standard.component", () =>
-  createMockedComponent("Button")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "Button"
+  )
 );
 
 jest.mock("../../../icons/svs/svs.icon", () =>
@@ -21,15 +24,8 @@ jest.mock("@chakra-ui/react", () => {
   return factoryInstance.create(["Flex"]);
 });
 
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
-
 describe("About", () => {
-  const mockT = jest.fn((key) => tLookup(key, translations));
+  const mockT = jest.fn((key) => tLookup(key, translations)) as TFunction;
 
   beforeEach(() => {
     jest.clearAllMocks();

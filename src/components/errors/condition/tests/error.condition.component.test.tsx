@@ -4,15 +4,10 @@ import ErrorDisplay from "../../display/error.display.component";
 import ErrorCondition from "../error.condition.component";
 
 jest.mock("../../display/error.display.component", () =>
-  createMockedComponent("ErrorDisplay")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "ErrorDisplay"
+  )
 );
-
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
 
 describe("ErrorCondition", () => {
   const mockChildren = "mockChildren";
