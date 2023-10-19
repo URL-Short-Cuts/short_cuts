@@ -91,7 +91,7 @@ export default class DynamoDBIntegration {
         key: { N: "0" },
         hash: { S: newHash },
       },
-      ReturnValues: "NONE",
+      ReturnValues: "NONE" as const,
     };
   }
 
@@ -110,7 +110,7 @@ export default class DynamoDBIntegration {
         ":newHash": { S: newHash },
         ":oldHash": { S: oldHash },
       },
-      ReturnValues: "UPDATED_NEW",
+      ReturnValues: "UPDATED_NEW" as const,
     };
   }
 }

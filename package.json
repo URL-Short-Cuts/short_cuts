@@ -12,6 +12,7 @@
     "test:types": "tsc"
   },
   "overrides": {
+    "@babel/traverse": ">=7.23.2",
     "@chakra-ui/icons": {
       "@chakra-ui/system": "<2.0.0",
       "react": "^17.0.0"
