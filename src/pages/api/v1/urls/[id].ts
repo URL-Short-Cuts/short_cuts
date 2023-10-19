@@ -12,5 +12,5 @@ class UrlEndpointFactory extends EndPointBase {
   }
 }
 
-export const endpointFactory = new UrlEndpointFactory();
+const endpointFactory = new UrlEndpointFactory();
 export default endpointFactory.create();

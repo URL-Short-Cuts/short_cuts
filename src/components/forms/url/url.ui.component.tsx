@@ -2,7 +2,7 @@ import { Box, Flex, useToast, Avatar } from "@chakra-ui/react";
 import { HiScissors } from "react-icons/hi";
 import FormContainer from "./url.container.component";
 import Billboard from "../../billboard/billboard.component";
-import type { TFunction } from "next-i18next";
+import type { TFunction } from "../../../types/translations/hook.types";
 
 interface FormUIProps {
   route: string;

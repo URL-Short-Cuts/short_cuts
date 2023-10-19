@@ -10,7 +10,7 @@ const SVSIcon = ({ width = 50, height = 50 }: SVSIconProps) => {
   const { t } = useTranslation("main");
   return (
     <Icon
-      alt={t("altText.svs")}
+      alt={String(t("altText.svs"))}
       src={"/images/svs.png"}
       width={width}
       height={height}

@@ -1,4 +1,4 @@
-import type { ReactChildren } from "react";
+import type { ReactNode } from "react";
 
 class MockComponentWithChildrenFactory {
   create = (name: string, exportName = "default") => {
@@ -6,7 +6,7 @@ class MockComponentWithChildrenFactory {
       __esModule: true,
     };
     mockModule[exportName] = jest.fn(
-      ({ children }: { children: ReactChildren }) => {
+      ({ children }: { children: ReactNode }) => {
         return <div data-testid={name}>{children}</div>;
       }
     );

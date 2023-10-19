@@ -5,20 +5,15 @@ import BaseButton from "../../button.base/button.base.component";
 import StyledButton from "../button.standard.component";
 
 jest.mock("../../button.base/button.base.component", () =>
-  createMockedComponent("BaseButton")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "BaseButton"
+  )
 );
 
 jest.mock("../../../../hooks/analytics", () => ({
   __esModule: true,
   default: () => mockAnalyticsHook,
 }));
-
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
 
 describe("StandardButton", () => {
   const linkText = "Link";

@@ -1,4 +1,4 @@
-import { renderHook, act } from "@testing-library/react-hooks";
+import { renderHook, act } from "@testing-library/react";
 import dk from "deep-keys";
 import mockUrlHook from "./url.hook.mock";
 import ApiClient from "../../clients/api.client.class";

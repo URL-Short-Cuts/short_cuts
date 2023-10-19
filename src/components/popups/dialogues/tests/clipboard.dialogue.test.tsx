@@ -27,15 +27,10 @@ jest.mock("../../../../hooks/colour", () => {
 });
 
 jest.mock("../../../styles/hover.dim/hover.dim.styles", () =>
-  createMockedComponent("DimOnHover")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "DimOnHover"
+  )
 );
-
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
 
 describe("ClipBoardDialogue", () => {
   const mockClose = jest.fn();

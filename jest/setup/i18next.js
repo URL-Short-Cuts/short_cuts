@@ -9,6 +9,7 @@ import navbar from "../../public/locales/en/navbar.json";
 
 i18n.use(initReactI18next).init({
   ...i18nConfig,
+  lng: "en",
   debug: false,
   resources: {
     en: {
@@ -21,4 +22,4 @@ i18n.use(initReactI18next).init({
   },
 });
 
-global.i18n = i18n;
+window.i18n = i18n;

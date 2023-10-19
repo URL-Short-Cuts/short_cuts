@@ -4,7 +4,7 @@ import FormComponent from "./url.form.component";
 import useNavBar from "../../../hooks/navbar";
 import { isValidUrl } from "../../../validators/urls";
 import type { URLFormInterface } from "../../../types/forms/url.d";
-import type { TFunction } from "next-i18next";
+import type { TFunction } from "../../../types/translations/hook.types";
 
 interface FormContainerProps {
   route: string;

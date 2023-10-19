@@ -5,19 +5,17 @@ import StyledButtonLink from "../button.external.link.component";
 
 jest.mock(
   "../../../clickable/click.link.external/click.link.external.component",
-  () => createMockedComponent("ClickLink")
+  () =>
+    require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+      "ClickLink"
+    )
 );
 
 jest.mock("../../button.base/button.base.component", () =>
-  createMockedComponent("BaseButton")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "BaseButton"
+  )
 );
-
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
 
 describe("ButtonLink", () => {
   const linkText = "Link";

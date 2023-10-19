@@ -3,8 +3,8 @@ import { Formik, Form, Field } from "formik";
 import StyledButton from "../../button/button.standard/button.standard.component";
 import StyledInput from "../input/input.component";
 import type { URLFormInterface } from "../../../types/forms/url.d";
+import type { TFunction } from "../../../types/translations/hook.types";
 import type { FieldInputProps, FormikProps, FormikHelpers } from "formik";
-import type { TFunction } from "next-i18next";
 
 interface UrlFormProps {
   t: TFunction;

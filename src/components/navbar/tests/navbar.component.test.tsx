@@ -21,19 +21,27 @@ jest.mock("../../../hooks/colour", () => {
 });
 
 jest.mock("../navbar.color.mode/navbar.color.mode.component", () =>
-  createMockedComponent("NavBarColorModeToggle")
+  require("../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "NavBarColorModeToggle"
+  )
 );
 
 jest.mock("../navbar.logo/navbar.logo.component", () =>
-  createMockedComponent("NavBarLogo")
+  require("../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "NavBarLogo"
+  )
 );
 
 jest.mock("../navbar.options/navbar.options.component", () =>
-  createMockedComponent("NavBarOptions")
+  require("../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "NavBarOptions"
+  )
 );
 
 jest.mock("../navbar.spinner/navbar.spinner.component", () =>
-  createMockedComponent("NavSpinner")
+  require("../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "NavSpinner"
+  )
 );
 
 jest.mock("@chakra-ui/react", () => {
@@ -42,13 +50,6 @@ jest.mock("@chakra-ui/react", () => {
   } = require("../../../tests/fixtures/mock.chakra.react.factory.class");
   return factoryInstance.create(["Box", "IconButton"]);
 });
-
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
 
 const mockedComponents = {
   NavBarLogo: "NavBarLogo",

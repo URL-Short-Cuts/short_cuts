@@ -1,5 +1,5 @@
-import { act, waitFor } from "@testing-library/react";
-import { renderHook } from "@testing-library/react-hooks";
+import { act, cleanup, waitFor } from "@testing-library/react";
+import { renderHook } from "@testing-library/react";
 import dk from "deep-keys";
 import React from "react";
 import ReactGA from "react-ga";
@@ -7,16 +7,13 @@ import mockUseAnalytics from "./analytics.mock.hook";
 import EventDefinition from "../../events/event.class";
 import Events from "../../events/events";
 import { AnalyticsContext } from "../../providers/analytics/analytics.provider";
+import { createHookWrapper } from "../../tests/fixtures/mock.hook.wrapper";
 import useAnalytics from "../analytics";
 import type { AnalyticsContextInterface } from "../../types/analytics/provider.d";
 import type { MutableEnv } from "../../types/utils/process.d";
 import type { MouseEvent, ReactNode } from "react";
 
 jest.mock("react-ga");
-
-jest.mock("next/router", () => ({
-  useRouter: jest.fn(),
-}));
 
 interface MockAnalyticsContextWithChildren {
   children?: ReactNode;
@@ -29,6 +26,7 @@ describe("useAnalytics", () => {
   let originalEnvironment: typeof process.env;
   let received: ReturnType<typeof arrange>;
   const routerEventListener = jest.fn();
+  const routerClearEventListener = jest.fn();
   const mockMouseEvent = {
     currentTarget: {},
   } as MouseEvent<HTMLInputElement>;
@@ -61,7 +59,9 @@ describe("useAnalytics", () => {
     jest.spyOn(console, "groupEnd").mockImplementation(() => jest.fn());
     jest.spyOn(console, "log").mockImplementation(() => jest.fn());
     jest.spyOn(require("next/router"), "useRouter").mockImplementation(() => {
-      return { events: { on: routerEventListener } };
+      return {
+        events: { on: routerEventListener, off: routerClearEventListener },
+      };
     });
     mockSetInitialized = jest.fn();
   });
@@ -83,10 +83,12 @@ describe("useAnalytics", () => {
 
   const arrange = (providerProps: AnalyticsContextInterface) => {
     return renderHook(() => useAnalytics(), {
-      wrapper: providerWrapper,
-      initialProps: {
-        mockContext: providerProps,
-      },
+      wrapper: createHookWrapper<MockAnalyticsContextWithChildren>(
+        providerWrapper,
+        {
+          mockContext: providerProps,
+        }
+      ),
     });
   };
 
@@ -248,6 +250,16 @@ describe("useAnalytics", () => {
 
             expect(ReactGA.pageview).toBeCalledTimes(1);
             expect(ReactGA.pageview).toBeCalledWith(fakeUrl);
+          });
+
+          describe("when unmounted", () => {
+            beforeEach(() => cleanup());
+
+            it("should stop listening to router events", async () => {
+              await waitFor(() =>
+                expect(routerClearEventListener).toHaveBeenCalledTimes(1)
+              );
+            });
           });
         });
 
@@ -563,6 +575,16 @@ describe("useAnalytics", () => {
 
             expect(ReactGA.pageview).toBeCalledTimes(1);
             expect(ReactGA.pageview).toBeCalledWith(fakeUrl);
+          });
+
+          describe("when unmounted", () => {
+            beforeEach(() => cleanup());
+
+            it("should stop listening to router events", async () => {
+              await waitFor(() =>
+                expect(routerClearEventListener).toHaveBeenCalledTimes(1)
+              );
+            });
           });
         });
       });

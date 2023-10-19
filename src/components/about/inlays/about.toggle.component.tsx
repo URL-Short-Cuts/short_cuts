@@ -1,5 +1,5 @@
 import { Container, UnorderedList, ListItem } from "@chakra-ui/react";
-import type { TFunction } from "next-i18next";
+import type { TFunction } from "../../../types/translations/hook.types";
 
 export default function PrivacyToggle({ t }: { t: TFunction }) {
   return (

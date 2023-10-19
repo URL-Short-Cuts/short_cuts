@@ -6,7 +6,9 @@ import BillBoard from "../../billboard.component";
 import BillBoardSpinner, { testIDs } from "../billboard.spinner.component";
 
 jest.mock("../../billboard.component", () =>
-  createMockedComponent("Billboard")
+  require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
+    "BillBoard"
+  )
 );
 
 jest.mock("../../../../hooks/colour", () => {
@@ -19,13 +21,6 @@ jest.mock("@chakra-ui/react", () => {
   } = require("../../../../tests/fixtures/mock.chakra.react.factory.class");
   return factoryInstance.create(["Spinner"]);
 });
-
-const createMockedComponent = (name: string) => {
-  const {
-    factoryInstance,
-  } = require("../../../../tests/fixtures/mock.component.children.factory.class");
-  return factoryInstance.create(name);
-};
 
 describe("BillBoardSpinner", () => {
   const testTitle = "Test Title";

@@ -1,3 +1,4 @@
+import { ChakraProvider, ColorModeProvider } from "@chakra-ui/react";
 import {
   fireEvent,
   render,
@@ -9,7 +10,6 @@ import MockPopupDialogue, {
   testIDs,
   testColours,
 } from "./fixtures/mock.popup.dialogue";
-import UserInterfaceChakraProvider from "../../../../providers/ui/ui.chakra/ui.chakra.provider";
 import { UserInterfacePopUpsContext } from "../../../../providers/ui/ui.popups/ui.popups.provider";
 import checkMockCall from "../../../../tests/fixtures/mock.component.call";
 import Popup from "../popup.component";
@@ -26,23 +26,25 @@ describe("PopUp", () => {
 
   const arrange = () => {
     render(
-      <UserInterfaceChakraProvider>
-        <UserInterfacePopUpsContext.Provider
-          value={{
-            dispatch: mockDispatch,
-            status: {
-              [mockPopUpName]: { status: isOpen },
-              ClipBoard: { status: isOpen },
-            },
-          }}
-        >
-          <Popup
-            name={mockPopUpName}
-            message={mockMessage}
-            Component={MockPopupDialogue}
-          />
-        </UserInterfacePopUpsContext.Provider>
-      </UserInterfaceChakraProvider>
+      <ChakraProvider>
+        <ColorModeProvider>
+          <UserInterfacePopUpsContext.Provider
+            value={{
+              dispatch: mockDispatch,
+              status: {
+                [mockPopUpName]: { status: isOpen },
+                ClipBoard: { status: isOpen },
+              },
+            }}
+          >
+            <Popup
+              name={mockPopUpName}
+              message={mockMessage}
+              Component={MockPopupDialogue}
+            />
+          </UserInterfacePopUpsContext.Provider>
+        </ColorModeProvider>
+      </ChakraProvider>
     );
   };
 
@@ -57,7 +59,7 @@ describe("PopUp", () => {
         arrange();
       });
 
-      it("should only open once", () => {
+      it("should only open once (and rerender)", () => {
         expect(MockPopupDialogue).toBeCalledTimes(1);
         checkMockCall(
           MockPopupDialogue,
@@ -80,7 +82,7 @@ describe("PopUp", () => {
           testIDs.MockPopUpComponentColourMeasure
         );
         expect(
-          await within(measurement).findByText(testColours.dark)
+          await within(measurement).findByText(testColours.light)
         ).toBeTruthy();
       });
     });
@@ -104,6 +106,25 @@ describe("PopUp", () => {
     });
 
     describe("when the colour mode is toggled", () => {
+      beforeEach(async () => {
+        arrange();
+        const component = await screen.findByTestId(
+          testIDs.MockPopUpComponentColourToggle
+        );
+        fireEvent.click(component);
+      });
+
+      it("should display the correct colour value", async () => {
+        const measurement = await screen.findByTestId(
+          testIDs.MockPopUpComponentColourMeasure
+        );
+        expect(
+          await within(measurement).findByText(testColours.dark)
+        ).toBeTruthy();
+      });
+    });
+
+    describe("when the colour mode is toggled (again)", () => {
       beforeEach(async () => {
         arrange();
         const component = await screen.findByTestId(

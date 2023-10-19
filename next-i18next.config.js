@@ -1,21 +1,22 @@
+const path = require("path");
+
 const isNotProductionOrTest = () =>
   process.env.NODE_ENV !== "production" && process.env.NODE_ENV !== "test";
 
-const i18n = {
-  fallbackLng: {
-    default: ["en"],
-  },
-  debug: isNotProductionOrTest(),
-  locales: ["en"],
-  defaultLocale: "en",
+  const i18n = {
+    defaultLocale: "en",
+    locales: ["en"],
+  };
+
+module.exports = {
+  debug: isNotProductionOrTest(),  
   defaultNS: "main",
   keySeparator: ".",
+  i18n,
   interpolation: {
     escapeValue: false,
     formatSeparator: ",",
-  },
-};
-
-module.exports = {
-  i18n,
+  },  
+  localePath: path.resolve("./public/locales"),
+  reloadOnPrerender: isNotProductionOrTest(),
 };
