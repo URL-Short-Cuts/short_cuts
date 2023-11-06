@@ -1,5 +1,4 @@
 import { render, screen, fireEvent, within } from "@testing-library/react";
-import { RouterContext } from "next/dist/shared/lib/router-context";
 import navbarTranslations from "../../../../public/locales/en/navbar.json";
 import NavConfig from "../../../config/navbar";
 import mockAnalyticsHook from "../../../hooks/tests/analytics.mock.hook";
@@ -7,6 +6,8 @@ import NavBarProvider from "../../../providers/navbar/navbar.provider";
 import mockRouter from "../../../tests/fixtures/mock.router";
 import NavBar, { testIDs } from "../navbar.component";
 import type { JSONstringType } from "../../../types/general/json.d";
+
+jest.mock("next/router", () => ({ useRouter: jest.fn(() => mockRouter) }));
 
 jest.mock("../../../hooks/analytics", () => ({
   __esModule: true,
@@ -27,11 +28,9 @@ describe("NavBar", () => {
 
   const arrange = () => {
     render(
-      <RouterContext.Provider value={mockRouter}>
-        <NavBarProvider>
-          <NavBar menuConfig={config} />
-        </NavBarProvider>
-      </RouterContext.Provider>
+      <NavBarProvider>
+        <NavBar menuConfig={config} />
+      </NavBarProvider>
     );
   };
 

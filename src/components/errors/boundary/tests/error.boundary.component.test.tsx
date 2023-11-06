@@ -1,11 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { RouterContext } from "next/dist/shared/lib/router-context";
 import { useState } from "react";
 import Events from "../../../../events/events";
 import mockAnalyticsHook from "../../../../hooks/tests/analytics.mock.hook";
 import mockRouter from "../../../../tests/fixtures/mock.router";
 import ErrorHandler from "../../handler/error.handler.component";
 import ErrorBoundary from "../error.boundary.component";
+
+jest.mock("next/router", () => ({ useRouter: jest.fn(() => mockRouter) }));
 
 jest.mock("../../handler/error.handler.component", () => {
   const MockErrorHandler = () => (
@@ -33,27 +34,25 @@ const TestComponent = () => {
   const [error, setError] = useState(false);
 
   return (
-    <RouterContext.Provider value={mockRouter}>
-      <ErrorBoundary
-        eventDefinition={Events.General.Test}
-        route={mockTestRoute}
-        stateReset={mockStateReset}
-      >
-        <div data-testid={testIDs.TestComponent}>
-          <button
-            data-testid={testIDs.TriggerError}
-            onClick={() => setError(true)}
-          >
-            Trigger Error
-          </button>
-          {error ? (
-            <ComponentWithError />
-          ) : (
-            <div data-testid={testIDs.ChildComponent}>Child Component</div>
-          )}
-        </div>
-      </ErrorBoundary>
-    </RouterContext.Provider>
+    <ErrorBoundary
+      eventDefinition={Events.General.Test}
+      route={mockTestRoute}
+      stateReset={mockStateReset}
+    >
+      <div data-testid={testIDs.TestComponent}>
+        <button
+          data-testid={testIDs.TriggerError}
+          onClick={() => setError(true)}
+        >
+          Trigger Error
+        </button>
+        {error ? (
+          <ComponentWithError />
+        ) : (
+          <div data-testid={testIDs.ChildComponent}>Child Component</div>
+        )}
+      </div>
+    </ErrorBoundary>
   );
 };
 

@@ -7,6 +7,8 @@ import Page, { getStaticProps } from "../pages/_notFound";
 import mockCheckCall from "../tests/fixtures/mock.component.call";
 import getPageProps from "../utils/page.props.static";
 
+jest.mock("next/router", () => jest.requireActual("next-router-mock"));
+
 jest.mock("../utils/page.props.static", () =>
   jest.fn(() => "mockGetStaticProps")
 );

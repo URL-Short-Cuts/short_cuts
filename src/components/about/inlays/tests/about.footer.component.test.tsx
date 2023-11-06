@@ -7,6 +7,8 @@ import Button from "../../../button/button.standard/button.standard.component";
 import Footer from "../about.footer.component";
 import type { TFunction } from "../../../../types/translations/hook.types";
 
+jest.mock("next/router", () => jest.requireActual("next-router-mock"));
+
 jest.mock("../../../button/button.standard/button.standard.component", () =>
   require("../../../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
     "Button"

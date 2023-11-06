@@ -11,10 +11,8 @@ export default function ClickExternalLink({
   href,
 }: PropsWithChildren<ClickLinkProps>) {
   return (
-    <NextLink href={href} passHref>
-      <a target="_blank">
-        <AnalyticsWrapper href={href}>{children}</AnalyticsWrapper>
-      </a>
+    <NextLink href={href} target={"_blank"}>
+      <AnalyticsWrapper href={href}>{children}</AnalyticsWrapper>
     </NextLink>
   );
 }

@@ -4,6 +4,8 @@ import checkMockCall from "../../../../tests/fixtures/mock.component.call";
 import StyledButton from "../../../button/button.standard/button.standard.component";
 import FormComponent from "../url.form.component";
 
+jest.mock("next/router", () => jest.requireActual("next-router-mock"));
+
 jest.mock("../../../button/button.standard/button.standard.component", () => {
   const Original = jest.requireActual(
     "../../../button/button.standard/button.standard.component"

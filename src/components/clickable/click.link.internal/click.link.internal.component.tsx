@@ -12,9 +12,7 @@ export default function ClickInternalLink({
 }: PropsWithChildren<ClickLinkProps>) {
   return (
     <NextLink href={href}>
-      <a>
-        <AnalyticsWrapper href={href}>{children}</AnalyticsWrapper>
-      </a>
+      <AnalyticsWrapper href={href}>{children}</AnalyticsWrapper>
     </NextLink>
   );
 }
