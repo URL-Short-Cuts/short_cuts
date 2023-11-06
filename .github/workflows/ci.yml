@@ -15,7 +15,7 @@ env:
   PROJECT_NAME: "short_cuts"
   STAGE_NETLIFY_NAME: "stage-shortcuts"
   NETLIFY_CLI: netlify-cli
-  NODE_VERSION: 16
+  NODE_VERSION: 18.18.2
 
 jobs:
   build:

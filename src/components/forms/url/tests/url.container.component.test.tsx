@@ -1,5 +1,4 @@
 import { render, waitFor, cleanup } from "@testing-library/react";
-import { RouterContext } from "next/dist/shared/lib/router-context";
 import mockNavBarHook from "../../../../hooks/tests/navbar.mock.hook";
 import checkMockCall from "../../../../tests/fixtures/mock.component.call";
 import mockRouter from "../../../../tests/fixtures/mock.router";
@@ -7,6 +6,8 @@ import SearchContainer from "../url.container.component";
 import SearchForm from "../url.form.component";
 import type { URLFormInterface } from "../../../../types/forms/url.d";
 import type { FormikHelpers } from "formik";
+
+jest.mock("next/router", () => ({ useRouter: jest.fn(() => mockRouter) }));
 
 jest.mock("../url.form.component", () => {
   return jest.fn().mockImplementation(() => <div id="url">MockSearchForm</div>);
@@ -31,14 +32,12 @@ describe("FormContainer", () => {
 
   const arrange = () => {
     render(
-      <RouterContext.Provider value={mockRouter}>
-        <SearchContainer
-          closeError={mockCloseError}
-          openError={mockOpenError}
-          route={mockRoute}
-          t={mockT}
-        />
-      </RouterContext.Provider>
+      <SearchContainer
+        closeError={mockCloseError}
+        openError={mockOpenError}
+        route={mockRoute}
+        t={mockT}
+      />
     );
   };
 

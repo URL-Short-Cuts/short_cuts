@@ -31,14 +31,9 @@ describe("ButtonLink", () => {
     expect(NextLink).toBeCalledTimes(1);
     const call = jest.mocked(NextLink).mock.calls[0];
     expect(call[0].href).toBe(mockHref);
-    expect(call[0].passHref).toBe(true);
+    expect(call[0].target).toBe("_blank");
     expect(call[0].children).toBeDefined();
     expect(Object.keys(call[0]).length).toBe(3);
-  });
-
-  it("should pass the correct target to the <a> tag", async () => {
-    const LinkText = await screen.findByText(linkText);
-    expect(LinkText.parentElement).toHaveAttribute("target", "_blank");
   });
 
   describe("when the link is clicked", () => {

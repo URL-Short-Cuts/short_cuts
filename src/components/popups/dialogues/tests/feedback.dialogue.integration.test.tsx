@@ -2,6 +2,8 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import externalLinks from "../../../../config/external";
 import FeedbackDialogue, { testIDs } from "../feedback.dialogue";
 
+jest.mock("next/router", () => jest.requireActual("next-router-mock"));
+
 describe("FeedbackDialogue", () => {
   const mockClose = jest.fn();
   const mockMessage = "mockMessage";

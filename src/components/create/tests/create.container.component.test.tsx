@@ -7,15 +7,20 @@ import ErrorDisplay from "../../errors/display/error.display.component";
 import CreateComponent from "../create.component";
 import CreateContainer from "../create.container.component";
 
+jest.mock("next/router", () => jest.requireActual("next-router-mock"));
+
 jest.mock("../../../hooks/url", () => {
   return jest.fn().mockImplementation(() => mockUseUrl);
 });
+
 jest.mock("../../billboard/billboard.spinner/billboard.spinner.component", () =>
   jest.fn(() => <div>BillboardSpinner</div>)
 );
+
 jest.mock("../../errors/display/error.display.component", () =>
   jest.fn(() => <div>ErrorDisplay</div>)
 );
+
 jest.mock("../create.component", () =>
   jest.fn(() => <div>CreateContainer</div>)
 );

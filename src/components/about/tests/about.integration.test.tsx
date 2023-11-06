@@ -5,12 +5,13 @@ import {
   within,
   waitFor,
 } from "@testing-library/react";
-import { RouterContext } from "next/dist/shared/lib/router-context";
 import translations from "../../../../public/locales/en/about.json";
 import routes from "../../../config/routes";
 import mockRouter from "../../../tests/fixtures/mock.router";
 import { testIDs } from "../../dialogues/resizable/dialogue.resizable.component";
 import About from "../about.component";
+
+jest.mock("next/router", () => ({ useRouter: jest.fn(() => mockRouter) }));
 
 describe("About", () => {
   beforeEach(() => {
@@ -18,11 +19,7 @@ describe("About", () => {
   });
 
   const arrange = () => {
-    return render(
-      <RouterContext.Provider value={mockRouter}>
-        <About />
-      </RouterContext.Provider>
-    );
+    return render(<About />);
   };
 
   describe("when rendered", () => {
