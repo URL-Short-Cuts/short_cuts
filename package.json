@@ -4,6 +4,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "security": "audit-ci --config .audit-ci.json",
     "start": "next start",
     "lint": "next lint --dir ./src --dir ./jest",
     "lint:clean": "next lint --fix --dir ./jest --dir ./src; prettier --write \"./(src|jest)/**/*.+(ts|tsx|js|jsx|json|yml|yaml|css|scss|md|vue)\"",
@@ -57,6 +58,7 @@
     "@types/node": "^16.11.26",
     "@types/react": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
+    "audit-ci": "^6.6.1",
     "babel-jest": "^29.0.0",
     "eslint": "^7.32.0",
     "eslint-config-next": "^12.1.0",
