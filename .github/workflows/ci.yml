@@ -155,7 +155,7 @@ jobs:
 
       - name: Security Test -- Dependency Audit
         run: |
-          npm audit --production
+          npm run security
 
       - name: Security Test -- Run Trufflehog
         uses: trufflesecurity/trufflehog@v3.54.4
