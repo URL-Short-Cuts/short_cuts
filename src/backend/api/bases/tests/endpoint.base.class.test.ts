@@ -4,14 +4,14 @@ import IntegrationError from "../../../integrations/integration.error.class";
 import EndpointFactoryBase from "../endpoint.url.base.class";
 import type { HttpMethodType } from "../../../../types/general/http";
 import type { NextApiRequest, NextApiResponse } from "next";
-import type { NextConnect } from "next-connect";
+import type { NodeRouter } from "next-connect/dist/types/node";
 import type { MockRequest, MockResponse } from "node-mocks-http";
 
 class ConcretePostClass extends EndpointFactoryBase {
   route = "/api/v1/endpoint";
   methods = ["POST" as const];
 
-  attachPostHandler(baseHandler: NextConnect<NextApiRequest, NextApiResponse>) {
+  attachPostHandler(baseHandler: NodeRouter<NextApiRequest, NextApiResponse>) {
     baseHandler.post(this.route, async (req, res, next) => {
       res.status(200).json(status.STATUS_200_MESSAGE);
       next();
@@ -25,7 +25,7 @@ class ConcreteErrorPostClass extends EndpointFactoryBase {
   mockError = "mockError";
   errorCode?: number;
 
-  attachPostHandler(baseHandler: NextConnect<NextApiRequest, NextApiResponse>) {
+  attachPostHandler(baseHandler: NodeRouter<NextApiRequest, NextApiResponse>) {
     baseHandler.post(this.route, async () => {
       throw new IntegrationError(this.mockError, this.errorCode);
     });
@@ -36,7 +36,7 @@ class ConcreteGetClass extends EndpointFactoryBase {
   route = "/api/v1/endpoint";
   methods = ["GET" as const];
 
-  attachGetHandler(baseHandler: NextConnect<NextApiRequest, NextApiResponse>) {
+  attachGetHandler(baseHandler: NodeRouter<NextApiRequest, NextApiResponse>) {
     baseHandler.get(this.route, async (req, res, next) => {
       res.status(200).json(status.STATUS_200_MESSAGE);
       next();
@@ -50,7 +50,7 @@ class ConcreteErrorGetClass extends EndpointFactoryBase {
   mockError = "mockError";
   errorCode?: number;
 
-  attachGetHandler(baseHandler: NextConnect<NextApiRequest, NextApiResponse>) {
+  attachGetHandler(baseHandler: NodeRouter<NextApiRequest, NextApiResponse>) {
     baseHandler.get(this.route, async () => {
       throw new IntegrationError(this.mockError, this.errorCode);
     });
