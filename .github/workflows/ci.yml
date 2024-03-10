@@ -61,34 +61,34 @@ jobs:
 
     steps:
       - name: Deploy Stage -- Checkout Repository
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         uses: actions/checkout@v3
 
       - name: Deploy Stage -- Setup Environment
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         run: |
           source ./.github/scripts/setup.sh
         env:
           WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
 
       - name: Deploy Stage -- Setup Node
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
 
       - name: Deploy Stage -- Install `flyctl` binary
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         uses: superfly/flyctl-actions/setup-flyctl@master
 
       - name: Deploy Stage -- Deploy to fly.io
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         run: flyctl deploy --remote-only
         env:
           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
 
       - name: Deploy Stage -- Report Job Status on Success
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         run: |
           ./.github/scripts/notifications.sh "${NOTIFICATION}" ":white_check_mark: deployed with Fly.io to ${STAGE_ENDPOINT_NAME}"
         env:
