@@ -2,8 +2,9 @@
   "name": "short_cuts",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
+    "ci:vercel": "npm install vercel -g",
+    "dev": "next dev",
     "security": "audit-ci --config .audit-ci.json",
     "start": "next start",
     "lint": "next lint --dir ./src --dir ./jest",
