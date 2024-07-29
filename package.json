@@ -18,6 +18,7 @@
     "eslint-plugin-unused-imports": {
       "@typescript-eslint/eslint-plugin": "^5.0.0"
     },
+    "fast-xml-parser": ">=4.4.1",
     "node-fetch": "^2.6.7",
     "postcss": ">=8.4.31",
     "semver": ">=7.5.2",
