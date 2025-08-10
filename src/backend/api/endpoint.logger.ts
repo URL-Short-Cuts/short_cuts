@@ -19,7 +19,7 @@ const logger = (req: APIRequest, res: NextApiResponse, next: () => void) => {
 };
 
 const getRemoteIpAddress = (req: APIRequest) => {
-  if (req.socket?.remoteAddress) return req.socket.remoteAddress;
+  if (req.socket.remoteAddress) return req.socket.remoteAddress;
 
   const fromForwardedHeader = req.headers["x-forwarded-for"];
   if (typeof fromForwardedHeader === "string")
