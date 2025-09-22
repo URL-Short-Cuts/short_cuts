@@ -82,6 +82,7 @@ jobs:
       - name: Deploy Stage -- Install Dependencies
         if: github.ref == 'refs/heads/main'
         run: |
+          ./.github/scripts/job-40-vercel-author.sh
           npm run ci:vercel
           echo "${STAGE_ENVIRONMENT_CONTENT}" > .env.local
           mkdir -p .vercel && echo "${STAGE_VERCEL_CONFIG}" > .vercel/project.json
