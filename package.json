@@ -27,8 +27,8 @@
     }
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.54.0",
-    "@aws-sdk/client-s3": "^3.54.0",
+    "@aws-sdk/client-dynamodb": "^3.965.0",
+    "@aws-sdk/client-s3": "^3.965.0",
     "@chakra-ui/icons": "^2.0.0",
     "@chakra-ui/image": "^2.1.0",
     "@chakra-ui/react": "^2.0.0",
