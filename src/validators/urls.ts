@@ -6,7 +6,7 @@ export const isValidUrl = (url: string): boolean => {
     if (!parsedUrl.hostname.split(".")[1]) return false;
     if (url.length >= maximumLength) return false;
     return true;
-  } catch (_) {
+  } catch {
     return false;
   }
 };

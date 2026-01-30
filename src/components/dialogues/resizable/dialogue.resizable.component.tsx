@@ -41,12 +41,12 @@ export default function Dialogue({
   };
 
   useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect */
     recalculateHeight();
     window.addEventListener("resize", recalculateHeight);
     return () => {
       window.removeEventListener("resize", recalculateHeight);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

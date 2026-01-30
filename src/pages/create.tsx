@@ -18,6 +18,7 @@ export default function CreatePage() {
   useEffect(() => {
     if (createURL === undefined) {
       const urlParams = new URLSearchParams(window.location.search);
+      /* eslint-disable react-hooks/set-state-in-effect */
       setCreateUrl(urlParams.get("url"));
     }
   }, [createURL]);

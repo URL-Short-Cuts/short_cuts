@@ -35,7 +35,7 @@ export default function NavBar({ menuConfig }: NavBarProps) {
   const { isFetching, data } = fetchPlaceHolderHook();
 
   useEffect(() => {
-    if (isFetching) onClose;
+    if (isFetching) onClose();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isFetching]);
 
