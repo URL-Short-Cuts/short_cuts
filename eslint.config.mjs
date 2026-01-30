@@ -12,68 +12,76 @@ import { FlatCompat } from "@eslint/eslintrc";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const compat = new FlatCompat({
-    baseDirectory: __dirname,
-    recommendedConfig: js.configs.recommended,
-    allConfig: js.configs.all
+  baseDirectory: __dirname,
+  recommendedConfig: js.configs.recommended,
+  allConfig: js.configs.all,
 });
 
-export default defineConfig([{
+export default defineConfig([
+  {
     extends: [
-        ...nextCoreWebVitals,
-        ...compat.extends("plugin:@typescript-eslint/recommended"),
-        ...compat.extends("plugin:jest-formatting/recommended")
+      ...nextCoreWebVitals,
+      ...compat.extends("plugin:@typescript-eslint/recommended"),
+      ...compat.extends("plugin:jest-formatting/recommended"),
     ],
 
     plugins: {
-        "unused-imports": unusedImports,
-        "@typescript-eslint": typescriptEslint,
-        "jest-formatting": jestFormatting,
+      "unused-imports": unusedImports,
+      "@typescript-eslint": typescriptEslint,
+      "jest-formatting": jestFormatting,
     },
 
     languageOptions: {
-        globals: {
-            jest: true,
-        },
+      globals: {
+        jest: true,
+      },
 
-        parser: tsParser,
+      parser: tsParser,
     },
 
     rules: {
-        "@typescript-eslint/consistent-type-imports": ["error"],
-        "@typescript-eslint/explicit-module-boundary-types": "off",
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/no-var-requires": "off",
-        "@typescript-eslint/no-unused-vars": ["error"],
+      "@typescript-eslint/no-require-imports": "off",
+      "@typescript-eslint/consistent-type-imports": ["error"],
+      "@typescript-eslint/explicit-module-boundary-types": "off",
+      "@typescript-eslint/explicit-function-return-type": "off",
+      "@typescript-eslint/no-var-requires": "off",
+      "@typescript-eslint/no-unused-vars": ["error"],
 
-        "import/order": ["error", {
-            alphabetize: {
-                order: "asc",
+      "import/order": [
+        "error",
+        {
+          alphabetize: {
+            order: "asc",
+          },
+
+          groups: [
+            "external",
+            "builtin",
+            "sibling",
+            "parent",
+            "object",
+            "index",
+            "internal",
+            "type",
+          ],
+
+          "newlines-between": "never",
+
+          pathGroups: [
+            {
+              pattern: "@app/**",
+              group: "external",
+              position: "after",
             },
+          ],
 
-            groups: [
-                "external",
-                "builtin",
-                "sibling",
-                "parent",
-                "object",
-                "index",
-                "internal",
-                "type",
-            ],
+          pathGroupsExcludedImportTypes: ["builtin"],
+        },
+      ],
 
-            "newlines-between": "never",
-
-            pathGroups: [{
-                pattern: "@app/**",
-                group: "external",
-                position: "after",
-            }],
-
-            pathGroupsExcludedImportTypes: ["builtin"],
-        }],
-
-        "jest-formatting/padding-around-expect-groups": "off",
-        "no-unused-vars": "off",
-        "unused-imports/no-unused-imports": "error",
+      "jest-formatting/padding-around-expect-groups": "off",
+      "no-unused-vars": "off",
+      "unused-imports/no-unused-imports": "error",
     },
-}]);
+  },
+]);
