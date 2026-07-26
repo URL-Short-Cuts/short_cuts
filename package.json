@@ -13,9 +13,12 @@
     "test:coverage": "jest test --coverage --coverageDirectory=coverage --watchAll=false",
     "test:types": "tsc"
   },
-  "overrides": {
+  "overrides": {    
     "@babel/traverse": ">=7.23.2",
     "fast-xml-parser": ">=4.4.1",
+    "next": {
+      "sharp": ">=0.35.0"
+    },
     "node-fetch": "^2.6.7",
     "postcss": ">=8.4.31",
     "semver": ">=7.5.2",
