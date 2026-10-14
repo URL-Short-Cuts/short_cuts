@@ -7,26 +7,26 @@ import UserInterfaceRootProvider from "../ui/ui.root.provider";
 
 jest.mock("../../components/header/header.component", () =>
   require("../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
-    "Header",
-  ),
+    "Header"
+  )
 );
 
 jest.mock("../../providers/analytics/analytics.provider", () =>
   require("../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
-    "AnalyticsProvider",
-  ),
+    "AnalyticsProvider"
+  )
 );
 
 jest.mock("../../providers/navbar/navbar.provider", () =>
   require("../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
-    "NavBarProvider",
-  ),
+    "NavBarProvider"
+  )
 );
 
 jest.mock("../ui/ui.root.provider", () =>
   require("../../tests/fixtures/mock.component.children.factory.class").factoryInstance.create(
-    "UserInterfaceRootProvider",
-  ),
+    "UserInterfaceRootProvider"
+  )
 );
 
 const providers = {
@@ -49,7 +49,7 @@ describe("RootProvider", () => {
     render(
       <RootProvider headerProps={headerProps}>
         <div data-testid={providers.RootProvider}>Test</div>
-      </RootProvider>,
+      </RootProvider>
     );
   };
 
@@ -59,7 +59,7 @@ describe("RootProvider", () => {
     it("should call the Header component correctly", async () => {
       await waitFor(() => expect(Header).toBeCalledTimes(1));
       await waitFor(() =>
-        expect(Header).toBeCalledWith({ pageKey: "default" }, {}),
+        expect(Header).toBeCalledWith({ pageKey: "default" }, {})
       );
       expect(await screen.findByTestId(providers.Header)).toBeTruthy();
     });
@@ -71,7 +71,7 @@ describe("RootProvider", () => {
     it("should call the Header component correctly", async () => {
       await waitFor(() => expect(Header).toBeCalledTimes(1));
       await waitFor(() =>
-        expect(Header).toBeCalledWith({ pageKey: testPageKey }, {}),
+        expect(Header).toBeCalledWith({ pageKey: testPageKey }, {})
       );
       expect(await screen.findByTestId(providers.Header)).toBeTruthy();
     });
@@ -79,7 +79,7 @@ describe("RootProvider", () => {
     it("should initialize the Analytics Provider", async () => {
       await waitFor(() => expect(AnalyticsProvider).toBeCalledTimes(1));
       expect(
-        await screen.findByTestId(providers.AnalyticsProvider),
+        await screen.findByTestId(providers.AnalyticsProvider)
       ).toBeTruthy();
     });
 
@@ -91,7 +91,7 @@ describe("RootProvider", () => {
     it("should initialize the UserInterfaceProvider", async () => {
       await waitFor(() => expect(UserInterfaceRootProvider).toBeCalledTimes(1));
       expect(
-        await screen.findByTestId(providers.UserInterfaceRootProvider),
+        await screen.findByTestId(providers.UserInterfaceRootProvider)
       ).toBeTruthy();
     });
 

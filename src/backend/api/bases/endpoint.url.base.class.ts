@@ -25,7 +25,7 @@ export default abstract class UrlEndpointFactoryBase extends EndpointFactoryBase
           res.status(201).json(integrationResponse);
         }
         next();
-      },
+      }
     );
   }
 
@@ -33,7 +33,7 @@ export default abstract class UrlEndpointFactoryBase extends EndpointFactoryBase
     baseHandler.get(this.route, async (req, res, next) => {
       try {
         const integrationResponse = await this.getIntegration(
-          String(req.query.id),
+          String(req.query.id)
         );
         res.status(200).json(integrationResponse);
       } catch {

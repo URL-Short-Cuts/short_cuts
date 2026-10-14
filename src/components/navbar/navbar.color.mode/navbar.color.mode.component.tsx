@@ -17,7 +17,7 @@ export default function NavBarColorModeToggle() {
   };
 
   const changeHandler = (e: ChangeEvent<HTMLElement>) => {
-    /* eslint-disable react-hooks/static-components */    
+    /* eslint-disable react-hooks/static-components */
     e.target.blur();
     analytics.trackButtonClick(e, "Colour Mode Toggle");
     toggleColorMode();
