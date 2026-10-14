@@ -71,7 +71,7 @@ const useColour = () => {
   });
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const memoizedColours = useMemo(generateColours, [colorMode]);
+  const memoizedColours = useMemo(() => generateColours(), [colorMode]);
 
   return memoizedColours;
 };

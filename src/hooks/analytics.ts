@@ -15,15 +15,6 @@ const useAnalytics = () => {
   const [isTrackingRoutes, registerTrackRoutes] = useState(false);
   const router = useRouter();
 
-  useEffect(() => {
-    if (!isTrackingRoutes) return;
-    router.events.on("routeChangeStart", handleRouteChange);
-    return () => {
-      router.events.off("routeChangeStart", handleRouteChange);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isTrackingRoutes]);
-
   const trackButtonClick: ButtonClickHandlerType = (e, buttonName) => {
     const clickEvent = new EventDefinition({
       category: "MAIN",
@@ -75,6 +66,15 @@ const useAnalytics = () => {
     setInitialized(true);
     registerTrackRoutes(true);
   };
+
+  useEffect(() => {
+    if (!isTrackingRoutes) return;
+    router.events.on("routeChangeStart", handleRouteChange);
+    return () => {
+      router.events.off("routeChangeStart", handleRouteChange);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isTrackingRoutes]);
 
   return {
     event,
